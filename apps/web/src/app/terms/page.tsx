@@ -1,0 +1,42 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Terms of Use",
+  description: "Terms for using X Video Downloader.",
+  alternates: { canonical: "/terms" },
+};
+
+export default function TermsPage() {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <p className="text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">
+          Home
+        </Link>{" "}
+        / Terms
+      </p>
+      <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight">
+        Terms of Use
+      </h1>
+      <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
+        <p>
+          By using X Video Downloader you agree to use the service only with public posts and only
+          for content you have the right to download and use.
+        </p>
+        <p>
+          This tool is not affiliated with X Corp. or Twitter. Platform rules, copyright law, and
+          local regulations still apply to any media you save.
+        </p>
+        <p>
+          The service is provided as-is without warranties. Availability may change as third-party
+          platforms update how media is delivered. We may rate-limit or block abusive traffic.
+        </p>
+        <p>
+          You agree not to attempt to use the service as a general-purpose proxy, scraper for
+          private data, or attack tool against any system.
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+:root {
+  --background: #07070a;
+  --background-elevated: #0d0d13;
+  --foreground: #f4f4f7;
+  --surface: #101018;
+  --surface-elevated: #17172099;
+  --surface-strong: #191925;
+  --border: #23232f;
+  --border-strong: #303044;
+  --muted: #b1b2c2;
+  --muted-foreground: #8a8c9e;
+
+  --accent: #a78bfa;
+  --accent-strong: #8b5cf6;
+  --accent-foreground: #0d0725;
+  --accent-glow: #7c3aed;
+
+  --accent-2: #22d3ee;
+  --accent-2-strong: #06b6d4;
+
+  --success: #34d399;
+  --danger: #fb7185;
+  --danger-foreground: #ffe4e6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-strong: var(--surface-strong);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-strong: var(--accent-2-strong);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Ambient background: soft violet + cyan glows plus a subtle grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background:
+    radial-gradient(1000px 500px at 12% -10%, rgba(139, 92, 246, 0.22), transparent 60%),
+    radial-gradient(900px 500px at 88% -20%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, rgba(139, 92, 246, 0.1), transparent 60%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 45%, transparent);
+  color: white;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, #ffffff 0%, #d9c9ff 40%, #a78bfa 70%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glow-ring {
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.35),
+    0 20px 60px -20px rgba(139, 92, 246, 0.45),
+    0 8px 30px -12px rgba(34, 211, 238, 0.2);
+}
+
+@keyframes shine {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  transform: translateX(-120%);
+  animation: shine 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.pulse-dot { animation: pulse-dot 1.4s ease-in-out infinite; }
