@@ -141,11 +141,18 @@ npm run typecheck
    Env: `NEXT_PUBLIC_API_URL=https://your-extractor.example.com`  
    Do **not** run yt-dlp/ffmpeg on Vercel serverless.
 
-2. **Extractor → Railway / Render / Fly.io / any Docker VPS**  
-   Build `services/extractor/Dockerfile`  
-   Expose port `8000`  
-   Set `ALLOWED_ORIGINS` to `https://savethex.com,https://www.savethex.com` (+ your `*.vercel.app` URL)  
-   Set a long random `DOWNLOAD_TOKEN_SECRET`
+2. **Extractor → Fly.io** (recommended) — see [docs/FLY.md](docs/FLY.md)  
+   ```bash
+   cd services/extractor
+   fly auth login
+   fly apps create savex-extractor
+   fly secrets set DOWNLOAD_TOKEN_SECRET="$(openssl rand -hex 32)" \
+     ALLOWED_ORIGINS="https://savethex.com,https://www.savethex.com"
+   fly deploy
+   ```  
+   Then set Vercel `NEXT_PUBLIC_API_URL` to `https://savex-extractor.fly.dev` (or `https://api.savethex.com`).
+
+   Alternatives: Railway / Render / any Docker VPS using `services/extractor/Dockerfile`.
 
 3. Ensure ffmpeg is present in the extractor image (already installed in the Dockerfile).
 

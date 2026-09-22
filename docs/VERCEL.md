@@ -4,20 +4,28 @@ The Next.js app lives in `apps/web`. The Python extractor (`services/extractor`)
 cannot run on Vercel (needs yt-dlp + ffmpeg). Deploy it separately (Railway,
 Render, Fly.io, or any Docker host), then point the web app at it.
 
-## 1. Deploy the extractor first
+## 1. Deploy the extractor first (Fly.io)
+
+See **[FLY.md](./FLY.md)** for the full guide. Short version:
 
 ```bash
-# Example: Railway / Fly / any Docker host
-# Build: services/extractor/Dockerfile
-# Env:
-#   ALLOWED_ORIGINS=https://savethex.com,https://www.savethex.com,https://*.vercel.app
-#   DOWNLOAD_TOKEN_SECRET=<long-random>
-#   ENVIRONMENT=production
-#   EXTRACTION_TIMEOUT=90
-#   HLS_DOWNLOAD_TIMEOUT=1800
+cd services/extractor
+brew install flyctl   # if needed
+fly auth login
+fly apps create savex-extractor
+fly secrets set \
+  DOWNLOAD_TOKEN_SECRET="$(openssl rand -hex 32)" \
+  ALLOWED_ORIGINS="https://savethex.com,https://www.savethex.com"
+fly deploy
 ```
 
-Note the public HTTPS URL, e.g. `https://api.savethex.com`.
+After you have a Vercel URL, update CORS:
+
+```bash
+fly secrets set ALLOWED_ORIGINS="https://savethex.com,https://www.savethex.com,https://YOUR-PROJECT.vercel.app"
+```
+
+API URL example: `https://savex-extractor.fly.dev`
 
 ## 2. Import this repo on Vercel
 
