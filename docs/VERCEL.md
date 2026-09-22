@@ -4,28 +4,30 @@ The Next.js app lives in `apps/web`. The Python extractor (`services/extractor`)
 cannot run on Vercel (needs yt-dlp + ffmpeg). Deploy it separately (Railway,
 Render, Fly.io, or any Docker host), then point the web app at it.
 
-## 1. Deploy the extractor first (Fly.io)
+## 1. Deploy the extractor first (Railway)
 
-See **[FLY.md](./FLY.md)** for the full guide. Short version:
+See **[RAILWAY.md](./RAILWAY.md)** for the full guide. Short version:
+
+1. Railway → New Project → Deploy from GitHub (`ilyassrachouady/Xdownloader`)
+2. **Root Directory**: `services/extractor`
+3. Generate a public domain
+4. Set variables (`DOWNLOAD_TOKEN_SECRET`, `ALLOWED_ORIGINS`, …)
 
 ```bash
+# Or CLI
 cd services/extractor
-brew install flyctl   # if needed
-fly auth login
-fly apps create savex-extractor
-fly secrets set \
-  DOWNLOAD_TOKEN_SECRET="$(openssl rand -hex 32)" \
-  ALLOWED_ORIGINS="https://savethex.com,https://www.savethex.com"
-fly deploy
+railway login && railway init && railway up
 ```
 
-After you have a Vercel URL, update CORS:
+After you have a Vercel URL, update CORS on Railway:
 
-```bash
-fly secrets set ALLOWED_ORIGINS="https://savethex.com,https://www.savethex.com,https://YOUR-PROJECT.vercel.app"
+```
+ALLOWED_ORIGINS=https://savethex.com,https://www.savethex.com,https://YOUR-PROJECT.vercel.app
 ```
 
-API URL example: `https://savex-extractor.fly.dev`
+API URL example: `https://savex-extractor-production.up.railway.app`
+
+(Fly.io alternative: [FLY.md](./FLY.md))
 
 ## 2. Import this repo on Vercel
 
@@ -39,7 +41,7 @@ API URL example: `https://savex-extractor.fly.dev`
 | `NEXT_PUBLIC_SITE_URL` | `https://savethex.com` |
 | `NEXT_PUBLIC_API_URL` | `https://YOUR-EXTRACTOR-URL` (no trailing slash) |
 
-`NEXT_PUBLIC_API_URL` must point at the Fly extractor. Downloads go there directly —
+`NEXT_PUBLIC_API_URL` must point at the Railway extractor. Downloads go there directly —
 do not rely on the Next `/api` rewrite for long live remuxes (those get truncated to
 ~8s / one HLS segment).
 

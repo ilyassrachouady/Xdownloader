@@ -18,5 +18,5 @@ COPY app ./app
 
 EXPOSE 8000
 
-# Fly sets PORT; default to 8000 locally / Docker Compose
+# Fly sets PORT; Railway/Docker Compose do too — default 8000 locally
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
