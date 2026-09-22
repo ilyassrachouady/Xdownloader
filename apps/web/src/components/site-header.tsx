@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand-logo";
 import { BRAND } from "@/lib/site";
 
 export function SiteHeader() {
@@ -7,15 +8,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="group inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label={`${BRAND} home`}
         >
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-accent-strong to-[color:var(--accent-glow)] text-[13px] font-bold text-white shadow-[0_6px_20px_-6px_rgba(139,92,246,0.7)] transition group-hover:scale-105">
-            S
-          </span>
-          <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold tracking-tight text-foreground">
-            {BRAND}
-          </span>
+          <BrandLogo variant="full" priority className="transition group-hover:opacity-90" />
         </Link>
         <nav
           aria-label="Primary"

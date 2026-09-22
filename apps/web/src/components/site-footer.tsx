@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand-logo";
 import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 const links = [
@@ -15,12 +16,13 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-md space-y-3">
-            <div className="inline-flex items-center gap-2">
-              <span className="grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-accent-strong to-[color:var(--accent-glow)] text-[11px] font-bold text-white">
-                S
-              </span>
-              <p className="text-sm font-semibold text-foreground">{BRAND}</p>
-            </div>
+            <Link
+              href="/"
+              className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-label={`${BRAND} home`}
+            >
+              <BrandLogo variant="full" className="h-6 sm:h-7" />
+            </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Download videos, GIFs and live replays from public X / Twitter posts at{" "}
               {SITE_DOMAIN}. Not affiliated with X Corp. Users are responsible for respecting

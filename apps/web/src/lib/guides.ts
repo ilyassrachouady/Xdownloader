@@ -113,7 +113,7 @@ function buildGuides(): GuideArticle[] {
     {
       slug: "replace-domain-trick",
       title: `The ${SITE_DOMAIN} replace-domain trick`,
-      description: `Swap x.com for ${SITE_DOMAIN} in any public status URL to open SaveX with the download ready — no paste step.`,
+      description: `Swap x.com for ${SITE_DOMAIN} in any public status URL to open ${BRAND} with the download ready — no paste step.`,
       publishedAt: "2026-09-22",
       updatedAt: "2026-09-22",
       keywords: [

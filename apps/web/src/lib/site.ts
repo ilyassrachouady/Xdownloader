@@ -1,4 +1,4 @@
-export const BRAND = "SaveX";
+export const BRAND = "SaveTheX";
 export const BRAND_TAGLINE = "Download X videos, GIFs & live replays";
 /** Production domain — used in marketing copy when env is unset. */
 export const SITE_DOMAIN = "savethex.com";
