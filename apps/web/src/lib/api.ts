@@ -87,3 +87,70 @@ export function absoluteDownloadUrl(path: string): string {
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/** Extract signed download token from `/download/{token}` (or absolute URL). */
+export function downloadTokenFromUrl(pathOrUrl: string): string | null {
+  try {
+    const path = pathOrUrl.startsWith("http")
+      ? new URL(pathOrUrl).pathname
+      : pathOrUrl;
+    const m = path.match(/\/download\/([^/?#]+)/);
+    return m?.[1] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export type RemuxJobStatus = {
+  job_id: string;
+  status: "queued" | "running" | "done" | "error";
+  bytes: number;
+  error: string | null;
+  tweet_id?: string;
+  quality?: string;
+};
+
+export async function startRemuxJob(token: string): Promise<RemuxJobStatus> {
+  const base = getApiBaseUrl();
+  const response = await fetch(`${base}/remux/${encodeURIComponent(token)}`, {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    credentials: "omit",
+    mode: "cors",
+  });
+  const data = (await response.json().catch(() => null)) as RemuxJobStatus | ApiError | null;
+  if (!response.ok) {
+    const err = data as ApiError | null;
+    throw {
+      code: err?.code || "remux_failed",
+      message: err?.message || "Could not start live remux.",
+    } satisfies ApiError;
+  }
+  return data as RemuxJobStatus;
+}
+
+export async function pollRemuxJob(
+  jobId: string,
+  signal?: AbortSignal,
+): Promise<RemuxJobStatus> {
+  const base = getApiBaseUrl();
+  const response = await fetch(`${base}/remux/${encodeURIComponent(jobId)}`, {
+    headers: { Accept: "application/json" },
+    credentials: "omit",
+    mode: "cors",
+    signal,
+  });
+  const data = (await response.json().catch(() => null)) as RemuxJobStatus | ApiError | null;
+  if (!response.ok) {
+    const err = data as ApiError | null;
+    throw {
+      code: err?.code || "remux_failed",
+      message: err?.message || "Remux status check failed.",
+    } satisfies ApiError;
+  }
+  return data as RemuxJobStatus;
+}
+
+export function remuxFileUrl(jobId: string): string {
+  return `${getApiBaseUrl()}/remux/${encodeURIComponent(jobId)}/file`;
+}

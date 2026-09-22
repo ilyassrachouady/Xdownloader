@@ -15,7 +15,13 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { MediaFormat, ResolveResponse } from "@/lib/api";
-import { absoluteDownloadUrl } from "@/lib/api";
+import {
+  absoluteDownloadUrl,
+  downloadTokenFromUrl,
+  pollRemuxJob,
+  remuxFileUrl,
+  startRemuxJob,
+} from "@/lib/api";
 import { formatBytes, formatDuration } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -27,8 +33,8 @@ type Props = {
 type ProgressState = {
   key: string;
   received: number;
-  /** Indeterminate remux — no content-length from HLS stream */
-  phase: "fetching" | "saving" | "done" | "error";
+  /** Server remuxes live HLS to a real MP4, then we download the finished file */
+  phase: "remuxing" | "saving" | "done" | "error";
   message?: string;
 };
 
@@ -37,16 +43,22 @@ function pickBest(formats: MediaFormat[]): MediaFormat | null {
   return [...formats].sort((a, b) => (b.height || 0) - (a.height || 0))[0];
 }
 
-function triggerBlobDownload(blob: Blob, filename: string) {
-  const objectUrl = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = objectUrl;
-  a.download = filename;
-  a.rel = "noopener";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  window.setTimeout(() => URL.revokeObjectURL(objectUrl), 30_000);
+function sleep(ms: number, signal?: AbortSignal) {
+  return new Promise<void>((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException("Aborted", "AbortError"));
+      return;
+    }
+    const t = window.setTimeout(() => resolve(), ms);
+    signal?.addEventListener(
+      "abort",
+      () => {
+        window.clearTimeout(t);
+        reject(new DOMException("Aborted", "AbortError"));
+      },
+      { once: true },
+    );
+  });
 }
 
 export function MediaResult({ result, resolveDownloadHref }: Props) {
@@ -84,8 +96,8 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
 
   /**
    * Progressive MP4: plain <a download> is fine.
-   * HLS / live remux: fetch the full stream into a blob first. Browser <a download>
-   * against a long cross-origin stream often closes early (~1 HLS segment / ~8s).
+   * HLS / live: remux to a finished faststart MP4 on the server, then download
+   * that file. Streaming remux into the browser often truncates (~8s = 1 segment).
    */
   async function downloadFormat(format: MediaFormat, key: string) {
     const href = resolveDownloadHref(format.download_url);
@@ -105,42 +117,44 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
+    const { signal } = controller;
 
-    setProgress({ key, received: 0, phase: "fetching" });
+    setProgress({ key, received: 0, phase: "remuxing" });
 
     try {
-      const response = await fetch(href, {
-        signal: controller.signal,
-        credentials: "omit",
-        mode: "cors",
-      });
-      if (!response.ok) {
-        throw new Error(`Download failed (${response.status})`);
-      }
-      if (!response.body) {
-        const blob = await response.blob();
-        setProgress({ key, received: blob.size, phase: "saving" });
-        triggerBlobDownload(blob, filename);
-        setProgress({ key, received: blob.size, phase: "done" });
-        return;
+      const token = downloadTokenFromUrl(format.download_url);
+      if (!token) {
+        throw new Error("Missing download token");
       }
 
-      const reader = response.body.getReader();
-      const chunks: BlobPart[] = [];
-      let received = 0;
+      const started = await startRemuxJob(token);
+      let status = started;
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        received += value.byteLength;
-        setProgress({ key, received, phase: "fetching" });
+      while (status.status === "queued" || status.status === "running") {
+        setProgress({
+          key,
+          received: status.bytes || 0,
+          phase: "remuxing",
+        });
+        await sleep(2000, signal);
+        status = await pollRemuxJob(status.job_id, signal);
       }
 
-      setProgress({ key, received, phase: "saving" });
-      const blob = new Blob(chunks, { type: "video/mp4" });
-      triggerBlobDownload(blob, filename);
-      setProgress({ key, received, phase: "done" });
+      if (status.status === "error") {
+        throw new Error(status.error || "Remux failed");
+      }
+
+      setProgress({ key, received: status.bytes || 0, phase: "saving" });
+      // Finished file has Content-Length + Content-Disposition — let the browser
+      // download it normally (no in-memory blob; avoids OOM / truncated saves).
+      const a = document.createElement("a");
+      a.href = remuxFileUrl(status.job_id);
+      a.rel = "noopener noreferrer";
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setProgress({ key, received: status.bytes || 0, phase: "done" });
       window.setTimeout(() => {
         setProgress((p) => (p?.key === key ? null : p));
       }, 4000);
@@ -149,12 +163,17 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
         setProgress(null);
         return;
       }
+      const msg =
+        err && typeof err === "object" && "message" in err
+          ? String((err as { message: string }).message)
+          : null;
       setProgress({
         key,
         received: 0,
         phase: "error",
         message:
-          "Live remux failed or was interrupted. Keep this tab open and try again — longer lives can take several minutes.",
+          msg ||
+          "Live remux failed. Keep this tab open — long replays can take several minutes on the server.",
       });
     }
   }
@@ -177,15 +196,15 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
           disabled={Boolean(busyKey) && !busy}
           onClick={() => void downloadFormat(format, key)}
         >
-          {busy && phase === "fetching" ? (
+          {busy && phase === "remuxing" ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-              Remuxing… {formatBytes(received) || "0 B"}
+              Preparing full video…
             </>
           ) : busy && phase === "saving" ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-              Saving…
+              Starting download…
             </>
           ) : phase === "done" ? (
             <>
@@ -203,6 +222,11 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-black/30">
             <div className="h-full w-1/3 animate-pulse rounded-full bg-gradient-to-r from-accent to-accent-2" />
           </div>
+        )}
+        {busy && phase === "remuxing" && (
+          <p className="mt-2 text-[11px] text-muted">
+            Building the full MP4 on the server — keep this tab open.
+          </p>
         )}
         {progress?.key === key && progress.phase === "error" && (
           <p className="mt-2 text-[11px] text-danger-foreground">{progress.message}</p>
