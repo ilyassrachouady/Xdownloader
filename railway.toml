@@ -1,0 +1,13 @@
+# Railway config at monorepo root — builds the extractor with Docker.
+# (Dashboard alternative: Settings → Root Directory = services/extractor)
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+watchPatterns = ["services/extractor/**"]
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5

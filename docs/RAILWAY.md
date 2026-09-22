@@ -13,11 +13,20 @@ Deploy **this** on Railway. Keep the Next.js app on Vercel (see [VERCEL.md](./VE
 
 1. [railway.app/new](https://railway.app/new) → **Deploy from GitHub repo**  
    Repo: `ilyassrachouady/Xdownloader`
-2. **Root Directory**: `services/extractor`  
-   (Settings → Root Directory — required so Railway finds the Dockerfile)
-3. Railway should detect `Dockerfile` + `railway.toml` and build.
-4. Generate a public domain: **Settings → Networking → Generate Domain**  
+2. Railway should pick the **root** `Dockerfile` + `railway.toml` (extractor).
+
+   Optional but cleaner: **Settings → Root Directory** = `services/extractor`  
+   (then it uses `services/extractor/Dockerfile` instead)
+3. Generate a public domain: **Settings → Networking → Generate Domain**  
    Example: `https://savex-extractor-production.up.railway.app`
+
+### If you see “Railpack failed to prepare the build”
+
+Railway was building the **repo root** with auto-detect (Railpack). This monorepo
+has no root `package.json` / Python app, so Railpack fails.
+
+Fix: ensure the service uses **Dockerfile** builder (root `railway.toml` does this),
+or set **Root Directory** to `services/extractor`, then redeploy.
 
 ## Environment variables
 
