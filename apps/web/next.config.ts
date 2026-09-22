@@ -9,6 +9,15 @@ const apiOrigin = (
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  async redirects() {
+    return [
+      {
+        source: "/download-x-live-replay",
+        destination: "/x-live-downloader",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand-logo";
 import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
+import { ENTITY_ONE_LINER } from "@/lib/seo";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/download-twitter-video", label: "Download Twitter video" },
+  { href: "/", label: "Downloader" },
+  { href: "/about", label: "About" },
   { href: "/download-x-video", label: "Download X video" },
-  { href: "/twitter-video-downloader", label: "Downloader" },
+  { href: "/download-twitter-video", label: "Download Twitter video" },
+  { href: "/twitter-video-downloader", label: "Twitter video downloader" },
+  { href: "/x-gif-downloader", label: "GIF downloader" },
+  { href: "/x-live-downloader", label: "Live replay downloader" },
+  { href: "/ssstwitter-alternative", label: "SSSTwitter alternative" },
   { href: "/guides", label: "Guides" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
@@ -27,9 +32,8 @@ export function SiteFooter() {
               <BrandLogo variant="full" className="h-6 max-w-[min(220px,80vw)] sm:h-7" />
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Download videos, GIFs and live replays from public X / Twitter posts at{" "}
-              {SITE_DOMAIN}. Not affiliated with X Corp. Users are responsible for respecting
-              copyright and platform rules.
+              {ENTITY_ONE_LINER} Available at {SITE_DOMAIN}. Not affiliated with X Corp.
+              Users are responsible for respecting copyright and platform rules.
             </p>
             <p className="text-sm text-muted-foreground">
               <a
@@ -50,12 +54,12 @@ export function SiteFooter() {
                 {link.label}
               </Link>
             ))}
-            <a
-              href="#disclaimer"
+            <Link
+              href="/#disclaimer"
               className="min-h-10 inline-flex items-center text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
             >
               Disclaimer
-            </a>
+            </Link>
           </nav>
         </div>
         <p id="disclaimer" className="mt-10 text-xs leading-relaxed text-muted-foreground/80">

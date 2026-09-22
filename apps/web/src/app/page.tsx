@@ -1,25 +1,54 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Shield } from "lucide-react";
 import { ContentSections } from "@/components/content-sections";
 import { HistoryPanel } from "@/components/history-panel";
 import { HomeDownloader } from "@/components/home-downloader";
 import { InstallShareTip } from "@/components/install-share-tip";
 import { MagicLinkTip } from "@/components/magic-link-tip";
-import { BRAND, CONTACT_EMAIL, SITE_DOMAIN, getSiteOrigin } from "@/lib/site";
-import { faqPageJsonLd, getHomeFaqs, webAppJsonLd } from "@/lib/seo";
+import { BRAND, SITE_DOMAIN, getSiteHost } from "@/lib/site";
+import {
+  ENTITY_DESCRIPTION,
+  ENTITY_ONE_LINER,
+  faqPageJsonLd,
+  getHomeFaqs,
+  organizationJsonLd,
+  webAppJsonLd,
+  webpageJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 
-const origin = getSiteOrigin();
+const host = getSiteHost();
+
+export const metadata: Metadata = {
+  title: {
+    absolute: `Download X / Twitter Videos Free — ${BRAND}`,
+  },
+  description: ENTITY_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `Download X / Twitter Videos Free — ${BRAND}`,
+    description: ENTITY_DESCRIPTION,
+    url: "/",
+    type: "website",
+    siteName: BRAND,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Download X / Twitter Videos Free — ${BRAND}`,
+    description: ENTITY_DESCRIPTION,
+  },
+};
 
 const jsonLd = [
+  organizationJsonLd(),
+  websiteJsonLd(),
   webAppJsonLd(),
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: BRAND,
-    url: origin,
-    email: CONTACT_EMAIL,
-    logo: `${origin}/icon-512.png`,
-    sameAs: [`https://${SITE_DOMAIN}`],
-  },
+  webpageJsonLd({
+    path: "/",
+    name: `Download X / Twitter Videos Free — ${BRAND}`,
+    description: ENTITY_DESCRIPTION,
+  }),
   faqPageJsonLd(getHomeFaqs()),
 ];
 
@@ -42,8 +71,16 @@ export default function HomePage() {
             <span className="text-gradient">free</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:mt-5 sm:text-lg">
-            Save public videos, GIFs, and live replays as MP4 on {SITE_DOMAIN} — paste a
-            link or swap x.com for our domain.
+            {ENTITY_ONE_LINER} Save public posts as MP4 on {SITE_DOMAIN} — paste a
+            link or swap <span className="text-foreground">x.com</span> for{" "}
+            <span className="text-accent">{host}</span>.
+          </p>
+          <p className="mx-auto mt-3 max-w-xl text-xs leading-relaxed text-muted-foreground sm:text-sm">
+            Supports public videos, GIFs, and{" "}
+            <Link href="/x-live-downloader" className="text-accent hover:underline">
+              ended X Live replays
+            </Link>
+            . Not affiliated with X Corp.
           </p>
         </div>
 

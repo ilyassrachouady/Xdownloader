@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { allGuideSlugs, getGuide, guides } from "@/lib/guides";
+import { allGuideSlugs, getGuide, relatedGuides } from "@/lib/guides";
 import { BRAND, getSiteOrigin } from "@/lib/site";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  organizationJsonLd,
+  webpageJsonLd,
+} from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -31,11 +35,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: guide.publishedAt,
       modifiedTime: guide.updatedAt,
       siteName: BRAND,
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: BRAND }],
     },
     twitter: {
       card: "summary_large_image",
       title: guide.title,
       description: guide.description,
+      images: ["/og.png"],
     },
   };
 }
@@ -46,34 +52,41 @@ export default async function GuideArticlePage({ params }: PageProps) {
   if (!guide) notFound();
 
   const origin = getSiteOrigin();
-  const related = guides.filter((g) => g.slug !== guide.slug).slice(0, 4);
+  const related = relatedGuides(guide, 4);
 
-  const jsonLd = [
+  const jsonLd: Record<string, unknown>[] = [
+    organizationJsonLd(),
+    webpageJsonLd({
+      path: `/guides/${guide.slug}`,
+      name: guide.title,
+      description: guide.description,
+    }),
     {
       "@context": "https://schema.org",
       "@type": "Article",
+      "@id": `${origin}/guides/${guide.slug}#article`,
       headline: guide.title,
       description: guide.description,
       datePublished: guide.publishedAt,
       dateModified: guide.updatedAt,
-      author: { "@type": "Organization", name: BRAND, url: origin },
-      publisher: {
-        "@type": "Organization",
-        name: BRAND,
-        url: origin,
-        logo: { "@type": "ImageObject", url: `${origin}/icon-512.png` },
-      },
+      author: { "@id": `${origin}/#organization` },
+      publisher: { "@id": `${origin}/#organization` },
       mainEntityOfPage: `${origin}/guides/${guide.slug}`,
       keywords: guide.keywords.join(", "),
+      isPartOf: { "@id": `${origin}/#website` },
     },
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: "Guides", path: "/guides" },
       { name: guide.title, path: `/guides/${guide.slug}` },
     ]),
-    {
+  ];
+
+  if (guide.howTo !== false) {
+    jsonLd.push({
       "@context": "https://schema.org",
       "@type": "HowTo",
+      "@id": `${origin}/guides/${guide.slug}#howto`,
       name: guide.title,
       description: guide.description,
       step: guide.sections.map((section, index) => ({
@@ -82,8 +95,8 @@ export default async function GuideArticlePage({ params }: PageProps) {
         name: section.heading,
         text: section.paragraphs.join(" "),
       })),
-    },
-  ];
+    });
+  }
 
   return (
     <article className="mx-auto max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
@@ -133,8 +146,16 @@ export default async function GuideArticlePage({ params }: PageProps) {
         Ready to try it?{" "}
         <Link href="/" className="font-medium text-accent hover:underline">
           Open {BRAND}
+        </Link>
+        , or jump to{" "}
+        <Link href="/x-live-downloader" className="font-medium text-accent hover:underline">
+          Live replays
         </Link>{" "}
-        and paste a public post URL — or swap x.com for our domain.
+        /{" "}
+        <Link href="/x-gif-downloader" className="font-medium text-accent hover:underline">
+          GIFs
+        </Link>
+        .
       </p>
 
       {related.length > 0 && (

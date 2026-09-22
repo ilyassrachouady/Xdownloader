@@ -6,9 +6,9 @@ import { SiteHeader } from "@/components/site-header";
 import {
   BRAND,
   CONTACT_EMAIL,
-  SITE_DOMAIN,
   getSiteOrigin,
 } from "@/lib/site";
+import { ENTITY_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
 const sans = IBM_Plex_Sans({
@@ -25,7 +25,7 @@ const display = Sora({
 
 const siteUrl = getSiteOrigin();
 const title = `Download X / Twitter Videos Free — ${BRAND}`;
-const description = `Free X & Twitter video downloader on ${SITE_DOMAIN}. Save public videos, GIFs, and live replays as MP4 in high quality — no account, no watermark. Paste a link or swap x.com → ${SITE_DOMAIN}.`;
+const description = ENTITY_DESCRIPTION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,6 +39,8 @@ export const metadata: Metadata = {
   creator: BRAND,
   publisher: BRAND,
   keywords: [
+    "SaveTheX",
+    "Save The X",
     "savethex",
     "savethex.com",
     "download twitter video",
@@ -47,12 +49,15 @@ export const metadata: Metadata = {
     "x video downloader",
     "twitter video download",
     "download twitter gif",
+    "x gif downloader",
     "x live replay download",
+    "x live downloader",
+    "download x live replay",
     "ssstwitter alternative",
     "save twitter video",
     "twitter mp4 download",
+    "download x video mp4",
   ],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -60,7 +65,14 @@ export const metadata: Metadata = {
     description,
     siteName: BRAND,
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: BRAND }],
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${BRAND} — free X/Twitter video downloader`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

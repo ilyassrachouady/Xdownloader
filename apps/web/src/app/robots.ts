@@ -10,6 +10,31 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/share", "/api/"],
       },
+      {
+        userAgent: "GPTBot",
+        allow: "/",
+        disallow: ["/share", "/api/"],
+      },
+      {
+        userAgent: "ChatGPT-User",
+        allow: "/",
+        disallow: ["/share", "/api/"],
+      },
+      {
+        userAgent: "Google-Extended",
+        allow: "/",
+        disallow: ["/share", "/api/"],
+      },
+      {
+        userAgent: "PerplexityBot",
+        allow: "/",
+        disallow: ["/share", "/api/"],
+      },
+      {
+        userAgent: "Applebot-Extended",
+        allow: "/",
+        disallow: ["/share", "/api/"],
+      },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,

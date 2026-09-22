@@ -1,25 +1,48 @@
 # SaveTheX (savethex.com)
 
-Free online X / Twitter video downloader.
+SaveTheX is a free X/Twitter video, GIF and ended Live replay downloader.
 
-## Product
+Also known as: Save The X, savethex, savethex.com.
+
+Canonical website: https://savethex.com/
+
+## Capabilities
 - Download public X and Twitter videos as MP4
-- Download Twitter / X GIFs
-- Download ended X live replays (remuxed to MP4)
-- Replace-domain shortcut: swap x.com → savethex.com
+- Download Twitter / X GIFs (usually as MP4 loops)
+- Download ended public X Live broadcasts and replays as MP4
+- Multiple qualities when X provides them
+- Replace-domain shortcut: swap x.com (or twitter.com) → savethex.com
 - Optional PWA with share target on mobile
-- No account required; no watermark added by SaveTheX
+- No account required
+- No watermark added by SaveTheX
+
+## Limitations
+- Only public posts
+- Private / protected accounts are not supported
+- Currently running live streams are not supported until a public replay exists
+- Quality is limited to what X actually serves for that post
+- Not affiliated with X Corp. / Twitter
+
+## URL shortcut
+From: https://x.com/username/status/ID
+To:   https://savethex.com/username/status/ID
+Only the host changes. Path stays the same.
 
 ## Important URLs
 - https://savethex.com/
-- https://savethex.com/download-twitter-video
+- https://savethex.com/about
 - https://savethex.com/download-x-video
+- https://savethex.com/download-twitter-video
 - https://savethex.com/twitter-video-downloader
+- https://savethex.com/x-gif-downloader
+- https://savethex.com/x-live-downloader
 - https://savethex.com/ssstwitter-alternative
 - https://savethex.com/guides
+- https://savethex.com/privacy
+- https://savethex.com/terms
+- https://savethex.com/contact
 - https://savethex.com/sitemap.xml
-- https://savethex.com/contact (contact@savethex.com)
+- https://savethex.com/llms-full.txt
 
-## Constraints
-- Only public posts
-- Not affiliated with X Corp. / Twitter
+## Contact
+contact@savethex.com

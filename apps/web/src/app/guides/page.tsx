@@ -3,16 +3,18 @@ import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { guides } from "@/lib/guides";
 import { BRAND, SITE_DOMAIN } from "@/lib/site";
+import { ENTITY_ONE_LINER } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Guides — download X videos, GIFs & live replays",
-  description: `How-to guides for ${BRAND} on ${SITE_DOMAIN}: download X videos, GIFs, live replays, and use the replace-domain shortcut.`,
+  title: "Guides — download X videos, GIFs & Live replays",
+  description: `How-to guides for ${BRAND} on ${SITE_DOMAIN}: download X videos, GIFs, ended Live replays, iPhone/Android workflows, and the replace-domain shortcut.`,
   alternates: { canonical: "/guides" },
   openGraph: {
     title: `Guides · ${BRAND}`,
     description: `Practical guides for saving public X / Twitter media with ${BRAND}.`,
     url: "/guides",
     type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: BRAND }],
   },
 };
 
@@ -34,8 +36,22 @@ export default function GuidesIndexPage() {
         </h1>
       </div>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-        Short, practical articles to help you download public X media with {BRAND} —
-        and help search engines understand what {SITE_DOMAIN} does.
+        {ENTITY_ONE_LINER} These articles explain how to download public media with{" "}
+        {BRAND} — including the x.com → {SITE_DOMAIN} shortcut.
+      </p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Prefer a product page?{" "}
+        <Link href="/x-live-downloader" className="text-accent hover:underline">
+          Live replays
+        </Link>
+        {" · "}
+        <Link href="/x-gif-downloader" className="text-accent hover:underline">
+          GIFs
+        </Link>
+        {" · "}
+        <Link href="/about" className="text-accent hover:underline">
+          About
+        </Link>
       </p>
 
       <ul className="mt-8 space-y-3 sm:mt-10 sm:space-y-4">

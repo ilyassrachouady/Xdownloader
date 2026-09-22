@@ -185,7 +185,6 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
   ) {
     const busy = busyKey === key;
     const phase = progress?.key === key ? progress.phase : null;
-    const received = progress?.key === key ? progress.received : 0;
 
     return (
       <div className={opts.className}>

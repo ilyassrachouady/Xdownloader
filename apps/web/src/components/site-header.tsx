@@ -11,7 +11,6 @@ export function SiteHeader() {
           className="group inline-flex min-w-0 shrink items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label={`${BRAND} home`}
         >
-          {/* Compact mark on very small screens; full wordmark from sm up */}
           <span className="sm:hidden">
             <BrandLogo variant="mark" priority className="h-8 w-8" />
           </span>
@@ -26,24 +25,30 @@ export function SiteHeader() {
           aria-label="Primary"
           className="flex shrink-0 items-center gap-0.5 text-xs text-muted-foreground sm:gap-1 sm:text-sm"
         >
-          <a
-            href="#fast-way"
+          <Link
+            href="/#fast-way"
             className="min-h-10 min-w-10 rounded-lg px-2.5 py-2 transition hover:bg-surface-elevated hover:text-foreground sm:px-3"
           >
             Fast
-          </a>
+          </Link>
+          <Link
+            href="/about"
+            className="hidden min-h-10 min-w-10 rounded-lg px-2.5 py-2 transition hover:bg-surface-elevated hover:text-foreground sm:inline-flex sm:items-center sm:px-3"
+          >
+            About
+          </Link>
           <Link
             href="/guides"
             className="min-h-10 min-w-10 rounded-lg px-2.5 py-2 transition hover:bg-surface-elevated hover:text-foreground sm:px-3"
           >
             Guides
           </Link>
-          <a
-            href="#faq"
+          <Link
+            href="/#faq"
             className="min-h-10 min-w-10 rounded-lg px-2.5 py-2 transition hover:bg-surface-elevated hover:text-foreground sm:px-3"
           >
             FAQ
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

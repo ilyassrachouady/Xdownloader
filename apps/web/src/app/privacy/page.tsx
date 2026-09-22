@@ -4,7 +4,7 @@ import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `How ${BRAND} (${SITE_DOMAIN}) handles URLs and media requests.`,
+  description: `How ${BRAND} (${SITE_DOMAIN}) handles URLs, analytics, and local storage.`,
   alternates: { canonical: "/privacy" },
 };
 
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
       <h1 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
         Privacy Policy
       </h1>
-      <p className="mt-2 text-xs text-muted-foreground">Last updated: September 22, 2026</p>
+      <p className="mt-2 text-xs text-muted-foreground">Last updated: September 23, 2026</p>
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
         <p>
           {BRAND} ({SITE_DOMAIN}) processes public post URLs you submit so we can list
@@ -28,8 +28,17 @@ export default function PrivacyPage() {
         </p>
         <p>
           The URL you paste is sent to our extraction service to resolve public media metadata.
-          Short-lived download tokens are created so files can be streamed securely. We do not
-          permanently store downloaded video files on our servers.
+          Short-lived download tokens are created so files can be streamed securely. For ended
+          Live replays, temporary remux files may exist on the server until the job expires.
+          We do not permanently store downloaded video files on our servers.
+        </p>
+        <p>
+          Recent downloads listed in the interface are stored only in your browser’s localStorage
+          on your device. Clearing site data removes that history.
+        </p>
+        <p>
+          We use Vercel Analytics for anonymous usage metrics (such as page views). It does not
+          require you to create an account with {BRAND}.
         </p>
         <p>
           Basic operational logs (such as request timing and error codes) may be retained briefly to

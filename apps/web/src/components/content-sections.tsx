@@ -6,8 +6,8 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { BRAND, getSiteHost } from "@/lib/site";
-import { getHomeFaqs } from "@/lib/seo";
+import { BRAND, SITE_DOMAIN, getSiteHost } from "@/lib/site";
+import { ENTITY_ONE_LINER, getHomeFaqs } from "@/lib/seo";
 
 const siteHost = getSiteHost();
 const faqs = getHomeFaqs();
@@ -21,12 +21,12 @@ const steps = [
   {
     icon: Share2,
     title: "Share from mobile",
-    body: `On iOS/Android, share a post to ${BRAND} (installed as PWA) and we handle the URL.`,
+    body: `On iOS/Android, share a post to ${BRAND} (installed as a PWA) and we handle the URL.`,
   },
   {
     icon: ShieldCheck,
     title: "Choose a quality",
-    body: "Get the best quality with one tap, or expand for other resolutions. Live replays remux to MP4.",
+    body: "Pick the best available MP4, or expand for other resolutions. Ended Live replays remux to MP4 on the server first.",
   },
 ];
 
@@ -37,9 +37,48 @@ const supported = [
   "https://mobile.twitter.com/username/status/123456789",
 ];
 
+const facts = [
+  `${ENTITY_ONE_LINER}`,
+  `${BRAND} does not require an X account.`,
+  `${BRAND} does not add a watermark to downloads.`,
+  `${BRAND} can download ended public X Live broadcasts and replays.`,
+  `${BRAND} does not support currently running live streams until a public replay exists.`,
+  `To download faster, replace x.com with ${siteHost} in the post URL.`,
+  `${BRAND} only works with public posts — not private or protected accounts.`,
+  `${BRAND} is not affiliated with X Corp.`,
+];
+
+const useCases = [
+  { href: "/download-x-video", label: "Download X video" },
+  { href: "/download-twitter-video", label: "Download Twitter video" },
+  { href: "/twitter-video-downloader", label: "Twitter video downloader" },
+  { href: "/x-gif-downloader", label: "X GIF downloader" },
+  { href: "/x-live-downloader", label: "X Live replay downloader" },
+  { href: "/guides/replace-domain-trick", label: "URL shortcut guide" },
+  { href: "/about", label: "About SaveTheX" },
+];
+
 export function ContentSections() {
   return (
     <div className="mx-auto max-w-5xl space-y-12 px-3 py-12 sm:space-y-20 sm:px-6 sm:py-20">
+      <section aria-labelledby="entity-heading" id="what-is-savethex">
+        <h2
+          id="entity-heading"
+          className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-foreground sm:text-3xl"
+        >
+          What is {BRAND}?
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-3 sm:text-base">
+          {ENTITY_ONE_LINER} Use it on {SITE_DOMAIN} (also written Save The X or savethex)
+          to save public media as MP4 without signing up.
+        </p>
+        <ul className="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+          {facts.map((fact) => (
+            <li key={fact}>{fact}</li>
+          ))}
+        </ul>
+      </section>
+
       <section aria-labelledby="how-heading" id="how-to">
         <h2
           id="how-heading"
@@ -89,6 +128,8 @@ export function ContentSections() {
           When you open a magic link or paste a URL, we validate the public post ID,
           extract media metadata, and list downloadable qualities. Short-lived signed
           tokens stream the file so arbitrary URLs are never fetched from the browser.
+          For ended Live replays, the server remuxes HLS to a finished MP4 before the
+          download starts.
         </p>
       </section>
 
@@ -115,6 +156,27 @@ export function ContentSections() {
         </ul>
       </section>
 
+      <section aria-labelledby="use-cases-heading" id="use-cases">
+        <h2
+          id="use-cases-heading"
+          className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-foreground sm:text-3xl"
+        >
+          Popular ways people use {BRAND}
+        </h2>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          {useCases.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className="block rounded-xl border border-border bg-surface px-4 py-3 text-sm text-accent transition hover:border-accent/40 hover:underline"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section aria-labelledby="privacy-heading" id="privacy-note">
         <h2
           id="privacy-heading"
@@ -124,11 +186,19 @@ export function ContentSections() {
         </h2>
         <ul className="mt-3 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground sm:mt-4">
           <li>No account required.</li>
-          <li>The service only processes the URL you enter.</li>
+          <li>The service processes the public post URL you enter to list media.</li>
           <li>Downloaded videos are not permanently stored on our servers.</li>
-          <li>Recent downloads live only on your device (localStorage).</li>
+          <li>Recent downloads live only on your device (browser localStorage).</li>
+          <li>Anonymous usage analytics may be collected via Vercel Analytics.</li>
           <li>Only public posts are supported.</li>
         </ul>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Full details on the{" "}
+          <Link href="/privacy" className="text-accent hover:underline">
+            privacy policy
+          </Link>
+          .
+        </p>
       </section>
 
       <section aria-labelledby="guides-heading" id="guides">
@@ -144,8 +214,8 @@ export function ContentSections() {
               Guides
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-3">
-              Step-by-step articles for downloading videos, GIFs, live replays, and using the
-              replace-domain shortcut.{" "}
+              Step-by-step articles for downloading videos, GIFs, ended Live replays, and
+              using the replace-domain shortcut.{" "}
               <Link
                 href="/guides"
                 className="inline-flex items-center gap-1 font-medium text-accent hover:underline"
