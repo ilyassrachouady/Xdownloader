@@ -17,6 +17,10 @@ const RESERVED = new Set([
   "guides",
   "api",
   "share",
+  "download-twitter-video",
+  "download-x-video",
+  "twitter-video-downloader",
+  "ssstwitter-alternative",
   "favicon.ico",
   "_next",
 ]);

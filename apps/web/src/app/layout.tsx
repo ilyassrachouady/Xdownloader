@@ -5,7 +5,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import {
   BRAND,
-  BRAND_TAGLINE,
   CONTACT_EMAIL,
   SITE_DOMAIN,
   getSiteOrigin,
@@ -25,8 +24,8 @@ const display = Sora({
 });
 
 const siteUrl = getSiteOrigin();
-const title = `${BRAND} — ${BRAND_TAGLINE}`;
-const description = `Download videos, GIFs, and live replays from X in the highest available quality on ${SITE_DOMAIN}. Paste a link or swap x.com with ${SITE_DOMAIN}.`;
+const title = `Download X / Twitter Videos Free — ${BRAND}`;
+const description = `Free X & Twitter video downloader on ${SITE_DOMAIN}. Save public videos, GIFs, and live replays as MP4 in high quality — no account, no watermark. Paste a link or swap x.com → ${SITE_DOMAIN}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -42,14 +41,16 @@ export const metadata: Metadata = {
   keywords: [
     "savethex",
     "savethex.com",
-    "savex",
+    "download twitter video",
+    "twitter video downloader",
+    "download x video",
     "x video downloader",
     "twitter video download",
     "download twitter gif",
-    "x.com media download",
     "x live replay download",
-    "download twitter video",
-    "save x video",
+    "ssstwitter alternative",
+    "save twitter video",
+    "twitter mp4 download",
   ],
   alternates: { canonical: "/" },
   openGraph: {

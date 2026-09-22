@@ -5,32 +5,22 @@ import { HomeDownloader } from "@/components/home-downloader";
 import { InstallShareTip } from "@/components/install-share-tip";
 import { MagicLinkTip } from "@/components/magic-link-tip";
 import { BRAND, CONTACT_EMAIL, SITE_DOMAIN, getSiteOrigin } from "@/lib/site";
+import { faqPageJsonLd, getHomeFaqs, webAppJsonLd } from "@/lib/seo";
 
 const origin = getSiteOrigin();
 
 const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: BRAND,
-    url: origin,
-    applicationCategory: "MultimediaApplication",
-    operatingSystem: "Any",
-    description: `Download videos, GIFs and live replays from X and Twitter in high quality on ${SITE_DOMAIN}. Paste a public post URL or just swap the domain.`,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  },
+  webAppJsonLd(),
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: BRAND,
     url: origin,
     email: CONTACT_EMAIL,
+    logo: `${origin}/icon-512.png`,
     sameAs: [`https://${SITE_DOMAIN}`],
   },
+  faqPageJsonLd(getHomeFaqs()),
 ];
 
 export default function HomePage() {
@@ -45,14 +35,15 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-border-strong bg-surface-strong/70 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur sm:px-3 sm:text-[11px]">
             <Shield className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
-            <span className="truncate">No account · No ads · Public posts</span>
+            <span className="truncate">Free · No account · No watermark</span>
           </span>
           <h1 className="mt-5 font-[family-name:var(--font-display)] text-[2rem] font-semibold leading-[1.08] tracking-tight text-foreground sm:mt-6 sm:text-6xl">
-            Save any X post in{" "}
-            <span className="text-gradient">one click</span>
+            Download X &amp; Twitter videos{" "}
+            <span className="text-gradient">free</span>
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:mt-5 sm:text-lg">
-            Videos, GIFs, and live replays — in the highest quality X serves.
+            Save public videos, GIFs, and live replays as MP4 on {SITE_DOMAIN} — paste a
+            link or swap x.com for our domain.
           </p>
         </div>
 

@@ -1,0 +1,25 @@
+# SaveTheX (savethex.com)
+
+Free online X / Twitter video downloader.
+
+## Product
+- Download public X and Twitter videos as MP4
+- Download Twitter / X GIFs
+- Download ended X live replays (remuxed to MP4)
+- Replace-domain shortcut: swap x.com → savethex.com
+- Optional PWA with share target on mobile
+- No account required; no watermark added by SaveTheX
+
+## Important URLs
+- https://savethex.com/
+- https://savethex.com/download-twitter-video
+- https://savethex.com/download-x-video
+- https://savethex.com/twitter-video-downloader
+- https://savethex.com/ssstwitter-alternative
+- https://savethex.com/guides
+- https://savethex.com/sitemap.xml
+- https://savethex.com/contact (contact@savethex.com)
+
+## Constraints
+- Only public posts
+- Not affiliated with X Corp. / Twitter

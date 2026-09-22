@@ -4,6 +4,9 @@ import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/download-twitter-video", label: "Download Twitter video" },
+  { href: "/download-x-video", label: "Download X video" },
+  { href: "/twitter-video-downloader", label: "Downloader" },
   { href: "/guides", label: "Guides" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },

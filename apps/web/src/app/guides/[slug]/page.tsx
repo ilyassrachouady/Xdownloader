@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { allGuideSlugs, getGuide } from "@/lib/guides";
+import { allGuideSlugs, getGuide, guides } from "@/lib/guides";
 import { BRAND, getSiteOrigin } from "@/lib/site";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -45,17 +46,44 @@ export default async function GuideArticlePage({ params }: PageProps) {
   if (!guide) notFound();
 
   const origin = getSiteOrigin();
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: guide.title,
-    description: guide.description,
-    datePublished: guide.publishedAt,
-    dateModified: guide.updatedAt,
-    author: { "@type": "Organization", name: BRAND, url: origin },
-    publisher: { "@type": "Organization", name: BRAND, url: origin },
-    mainEntityOfPage: `${origin}/guides/${guide.slug}`,
-  };
+  const related = guides.filter((g) => g.slug !== guide.slug).slice(0, 4);
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: guide.title,
+      description: guide.description,
+      datePublished: guide.publishedAt,
+      dateModified: guide.updatedAt,
+      author: { "@type": "Organization", name: BRAND, url: origin },
+      publisher: {
+        "@type": "Organization",
+        name: BRAND,
+        url: origin,
+        logo: { "@type": "ImageObject", url: `${origin}/icon-512.png` },
+      },
+      mainEntityOfPage: `${origin}/guides/${guide.slug}`,
+      keywords: guide.keywords.join(", "),
+    },
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Guides", path: "/guides" },
+      { name: guide.title, path: `/guides/${guide.slug}` },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: guide.title,
+      description: guide.description,
+      step: guide.sections.map((section, index) => ({
+        "@type": "HowToStep",
+        position: index + 1,
+        name: section.heading,
+        text: section.paragraphs.join(" "),
+      })),
+    },
+  ];
 
   return (
     <article className="mx-auto max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
@@ -108,6 +136,26 @@ export default async function GuideArticlePage({ params }: PageProps) {
         </Link>{" "}
         and paste a public post URL — or swap x.com for our domain.
       </p>
+
+      {related.length > 0 && (
+        <section className="mt-10">
+          <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-foreground">
+            Related guides
+          </h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {related.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={`/guides/${item.slug}`}
+                  className="text-accent hover:underline"
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }

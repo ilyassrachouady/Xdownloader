@@ -172,6 +172,89 @@ function buildGuides(): GuideArticle[] {
         },
       ],
     },
+    {
+      slug: "download-twitter-video-1080p",
+      title: "Download Twitter / X videos in 1080p",
+      description: `How to get the highest quality MP4 from public X posts — including when 1080p is available.`,
+      publishedAt: "2026-09-22",
+      updatedAt: "2026-09-22",
+      keywords: [
+        "download twitter video 1080p",
+        "x video 1080p download",
+        "twitter hd video download",
+      ],
+      excerpt:
+        "We list every useful resolution X serves. Pick Recommended for the best available quality.",
+      sections: [
+        {
+          heading: "Quality depends on the post",
+          paragraphs: [
+            "X only publishes certain renditions per post. If the uploader posted in HD, you’ll often see 1080p or 720p. If not, the best available option is what we show.",
+          ],
+        },
+        {
+          heading: "How to pick HD",
+          paragraphs: [
+            `Paste the post on ${SITE_DOMAIN}. The Recommended button uses the tallest resolution. Open other qualities if you need a smaller file.`,
+          ],
+        },
+      ],
+    },
+    {
+      slug: "twitter-video-downloader-no-watermark",
+      title: "Twitter video downloader with no watermark",
+      description: `${BRAND} saves public X / Twitter media without adding a watermark. Learn what that means and how to download cleanly.`,
+      publishedAt: "2026-09-22",
+      updatedAt: "2026-09-22",
+      keywords: [
+        "twitter video downloader no watermark",
+        "download twitter video without watermark",
+        "x video no watermark",
+      ],
+      excerpt:
+        "We don’t burn watermarks into downloads — you get the media X already serves for public posts.",
+      sections: [
+        {
+          heading: "What “no watermark” means here",
+          paragraphs: [
+            `${BRAND} does not overlay logos or text onto your file. Some posts already include creator watermarks inside the video itself — those are part of the original media.`,
+          ],
+        },
+        {
+          heading: "Download steps",
+          paragraphs: [
+            `Open ${SITE_DOMAIN}, paste a public post URL, tap Get media, then Save video.`,
+          ],
+        },
+      ],
+    },
+    {
+      slug: "how-to-save-twitter-videos-on-android",
+      title: "How to save Twitter / X videos on Android",
+      description: `Download X videos on Android with Chrome or the SaveTheX PWA share target.`,
+      publishedAt: "2026-09-22",
+      updatedAt: "2026-09-22",
+      keywords: [
+        "download twitter video android",
+        "save x video android",
+        "twitter video downloader android",
+      ],
+      excerpt: "Paste in Chrome, install the PWA, or share from the X app into SaveTheX.",
+      sections: [
+        {
+          heading: "In Chrome",
+          paragraphs: [
+            `Open ${SITE_DOMAIN}, paste the post URL, download the MP4. Files usually land in your Downloads folder.`,
+          ],
+        },
+        {
+          heading: "Share from X",
+          paragraphs: [
+            `Install ${BRAND} from Chrome → Install app. Then in X: Share → More → ${BRAND}.`,
+          ],
+        },
+      ],
+    },
   ];
 }
 

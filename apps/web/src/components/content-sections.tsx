@@ -7,8 +7,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import { BRAND, getSiteHost } from "@/lib/site";
+import { getHomeFaqs } from "@/lib/seo";
 
 const siteHost = getSiteHost();
+const faqs = getHomeFaqs();
 
 const steps = [
   {
@@ -33,45 +35,6 @@ const supported = [
   "https://twitter.com/username/status/123456789",
   `https://${siteHost}/username/status/123456789`,
   "https://mobile.twitter.com/username/status/123456789",
-];
-
-const faqs = [
-  {
-    q: "What’s the fastest way to download?",
-    a: `Replace x.com (or twitter.com) with ${siteHost} in the post URL. Keep /username/status/... unchanged and open the new link.`,
-  },
-  {
-    q: `Can I install ${BRAND} on my phone?`,
-    a: `Yes. Add to Home Screen on iOS or Install App on Android. Once installed, you can share X posts directly to ${BRAND} and download instantly.`,
-  },
-  {
-    q: "Can I download X live replays?",
-    a: "Yes. Ended live broadcasts / replays linked from a public post are supported. They’re remuxed to MP4, so longer lives take a bit to prepare — keep the tab open.",
-  },
-  {
-    q: "How do I download a video from X?",
-    a: "Paste the public post URL at the top of this page, tap Get media, then Save video — or use the replace-domain shortcut.",
-  },
-  {
-    q: "Does this work with Twitter links?",
-    a: "Yes. Classic twitter.com and newer x.com links both work as long as the post is public and includes media.",
-  },
-  {
-    q: "Can I download X GIFs?",
-    a: "When X serves a GIF as a short looping video (the usual case), we expose an MP4 download so you can save it.",
-  },
-  {
-    q: "Do I need an account?",
-    a: "No. You can use the tool without signing up.",
-  },
-  {
-    q: "Does this work with private posts?",
-    a: "No. Protected accounts and private posts cannot be accessed. The post must be publicly viewable.",
-  },
-  {
-    q: "What video quality can I download?",
-    a: "We surface the useful resolutions available for that post — often 1080p, 720p, 480p, or 360p — deduplicated from the source formats.",
-  },
 ];
 
 export function ContentSections() {
