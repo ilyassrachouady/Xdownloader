@@ -41,22 +41,22 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="relative px-4 pb-8 pt-12 sm:px-6 sm:pt-20">
+      <section className="relative px-3 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface-strong/70 px-3 py-1 text-[11px] font-medium text-muted backdrop-blur">
-            <Shield className="h-3.5 w-3.5 text-accent" aria-hidden />
-            No account · No ads · Public posts
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-border-strong bg-surface-strong/70 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur sm:px-3 sm:text-[11px]">
+            <Shield className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+            <span className="truncate">No account · No ads · Public posts</span>
           </span>
-          <h1 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl">
+          <h1 className="mt-5 font-[family-name:var(--font-display)] text-[2rem] font-semibold leading-[1.08] tracking-tight text-foreground sm:mt-6 sm:text-6xl">
             Save any X post in{" "}
             <span className="text-gradient">one click</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:mt-5 sm:text-lg">
             Videos, GIFs, and live replays — in the highest quality X serves.
           </p>
         </div>
 
-        <div className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-7 max-w-3xl sm:mt-10">
           <HomeDownloader />
         </div>
 

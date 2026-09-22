@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
       <p className="text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>{" "}
         / Terms
       </p>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight">
+      <h1 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
         Terms of Use
       </h1>
       <p className="mt-2 text-xs text-muted-foreground">Last updated: September 22, 2026</p>

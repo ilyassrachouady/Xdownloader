@@ -58,12 +58,12 @@ export default async function GuideArticlePage({ params }: PageProps) {
   };
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <article className="mx-auto max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <p className="text-sm text-muted-foreground">
+      <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>{" "}
@@ -71,35 +71,37 @@ export default async function GuideArticlePage({ params }: PageProps) {
         <Link href="/guides" className="hover:text-foreground">
           Guides
         </Link>{" "}
-        / {guide.title}
+        / <span className="text-foreground/80">{guide.title}</span>
       </p>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h1 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight sm:mt-4 sm:text-4xl">
         {guide.title}
       </h1>
-      <p className="mt-3 text-sm text-muted-foreground">
+      <p className="mt-2 text-xs text-muted-foreground sm:mt-3 sm:text-sm">
         Published {guide.publishedAt}
         {guide.updatedAt !== guide.publishedAt ? ` · Updated ${guide.updatedAt}` : ""}
       </p>
-      <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+      <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base">
         {guide.description}
       </p>
 
-      <div className="mt-10 space-y-10">
+      <div className="mt-8 space-y-8 sm:mt-10 sm:space-y-10">
         {guide.sections.map((section) => (
           <section key={section.heading}>
-            <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-foreground">
+            <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-foreground sm:text-xl">
               {section.heading}
             </h2>
-            <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <div className="mt-2.5 space-y-3 text-sm leading-relaxed text-muted-foreground sm:mt-3 sm:text-base">
               {section.paragraphs.map((p) => (
-                <p key={p.slice(0, 48)}>{p}</p>
+                <p key={p.slice(0, 48)} className="break-words">
+                  {p}
+                </p>
               ))}
             </div>
           </section>
         ))}
       </div>
 
-      <p className="mt-12 rounded-2xl border border-border bg-surface p-5 text-sm text-muted-foreground">
+      <p className="mt-10 rounded-2xl border border-border bg-surface p-4 text-sm text-muted-foreground sm:mt-12 sm:p-5">
         Ready to try it?{" "}
         <Link href="/" className="font-medium text-accent hover:underline">
           Open {BRAND}

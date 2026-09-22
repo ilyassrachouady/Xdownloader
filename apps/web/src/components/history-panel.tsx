@@ -28,13 +28,13 @@ export function HistoryPanel() {
   return (
     <section
       aria-labelledby="history-heading"
-      className="mx-auto mt-16 max-w-4xl px-4 sm:px-6"
+      className="mx-auto mt-10 max-w-4xl px-0 sm:mt-16 sm:px-6"
     >
-      <div className="mb-4 flex items-end justify-between gap-3">
-        <div>
+      <div className="mb-3 flex items-end justify-between gap-3 sm:mb-4">
+        <div className="min-w-0">
           <h2
             id="history-heading"
-            className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-foreground"
+            className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-foreground sm:text-xl"
           >
             Recent downloads
           </h2>
@@ -47,14 +47,14 @@ export function HistoryPanel() {
           variant="ghost"
           size="sm"
           onClick={() => clear()}
-          className="text-muted-foreground hover:text-foreground"
+          className="shrink-0 text-muted-foreground hover:text-foreground"
         >
           <Trash2 className="h-3.5 w-3.5" aria-hidden />
           Clear
         </Button>
       </div>
 
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
         <AnimatePresence initial={false}>
           {visible.map((item) => {
             const thumb = item.thumbnail ? absoluteDownloadUrl(item.thumbnail) : null;

@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
       <p className="text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>{" "}
         / Contact
       </p>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight">
+      <h1 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
         Contact
       </h1>
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">

@@ -27,7 +27,7 @@ export function StatusDownloadView({ username, tweetId }: Props) {
   const handle = username === "i" || username === "web" ? null : `@${username}`;
 
   return (
-    <section className="relative px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+    <section className="relative px-3 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-16">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-xs text-muted-foreground">
           <Link href="/" className="transition hover:text-foreground">
@@ -36,7 +36,7 @@ export function StatusDownloadView({ username, tweetId }: Props) {
           <span className="mx-2 opacity-50">/</span>
           <span className="text-accent">Magic link</span>
         </p>
-        <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="mt-3 font-[family-name:var(--font-display)] text-[1.65rem] font-semibold leading-tight tracking-tight text-foreground sm:mt-4 sm:text-4xl">
           {handle ? (
             <>
               Downloading <span className="text-gradient">{handle}</span>
@@ -45,13 +45,13 @@ export function StatusDownloadView({ username, tweetId }: Props) {
             "Downloading this post"
           )}
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="mx-auto mt-2.5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-3 sm:text-base">
           You used the replace-domain shortcut. We&apos;re fetching the public media
           automatically.
         </p>
       </div>
 
-      <div className="mx-auto mt-8 max-w-3xl">
+      <div className="mx-auto mt-6 max-w-3xl sm:mt-8">
         <Downloader initialUrl={initialUrl} autoFetch />
       </div>
 

@@ -23,12 +23,12 @@ export function InstallShareTip() {
     <section
       id="install"
       aria-labelledby="install-heading"
-      className="mx-auto mt-10 max-w-3xl px-0"
+      className="mx-auto mt-8 max-w-3xl px-0 sm:mt-10"
     >
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="glass rounded-2xl p-4">
+        <div className="glass rounded-2xl p-3.5 sm:p-4">
           <div className="flex items-center gap-2 text-accent">
-            <Smartphone className="h-4 w-4" aria-hidden />
+            <Smartphone className="h-4 w-4 shrink-0" aria-hidden />
             <h2
               id="install-heading"
               className="text-sm font-semibold text-foreground"
@@ -44,9 +44,9 @@ export function InstallShareTip() {
             <StepTrail steps={["Chrome", "Menu", "Install app"]} />
           </p>
         </div>
-        <div className="glass rounded-2xl p-4">
+        <div className="glass rounded-2xl p-3.5 sm:p-4">
           <div className="flex items-center gap-2 text-accent">
-            <Share2 className="h-4 w-4" aria-hidden />
+            <Share2 className="h-4 w-4 shrink-0" aria-hidden />
             <h2 className="text-sm font-semibold text-foreground">
               Share to {BRAND}
             </h2>

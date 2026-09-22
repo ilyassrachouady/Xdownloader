@@ -51,6 +51,8 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -59,6 +61,7 @@ body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Ambient background: soft violet + cyan glows plus a subtle grid */
@@ -85,6 +88,46 @@ body::after {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+}
+
+/* Lighter effects on small screens for scroll performance */
+@media (max-width: 640px) {
+  body::before {
+    background:
+      radial-gradient(520px 280px at 20% -5%, rgba(139, 92, 246, 0.18), transparent 65%),
+      radial-gradient(420px 240px at 90% 0%, rgba(34, 211, 238, 0.1), transparent 65%);
+  }
+
+  body::after {
+    background-size: 48px 48px;
+    opacity: 0.55;
+  }
+
+  .glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.3),
+      0 12px 36px -16px rgba(139, 92, 246, 0.4);
+  }
+
+  .shine::after {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .shine::after,
+  .pulse-dot {
+    animation: none !important;
+  }
 }
 
 ::selection {
@@ -145,3 +188,12 @@ body::after {
 }
 
 .pulse-dot { animation: pulse-dot 1.4s ease-in-out infinite; }
+
+/* Prefer tap highlight + faster taps on interactive controls */
+button,
+a,
+[role="button"],
+summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}

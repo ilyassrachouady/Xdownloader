@@ -33,7 +33,7 @@ export function BrandLogo({
       width={250}
       height={72}
       priority={priority}
-      className={`h-7 w-auto object-contain sm:h-8 ${className}`.trim()}
+      className={`h-7 w-auto max-w-full object-contain object-left sm:h-8 ${className}`.trim()}
     />
   );
 }

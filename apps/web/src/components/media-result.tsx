@@ -97,18 +97,18 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
           )}
         </div>
 
-        <div className="flex flex-col gap-4 p-5 sm:p-6">
+        <div className="flex flex-col gap-4 p-4 sm:p-6">
           <header className="space-y-2">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 {(result.uploader || result.uploader_id) && (
-                  <p className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
-                    <User className="h-3.5 w-3.5 text-accent" aria-hidden />
-                    {result.uploader || result.uploader_id}
+                  <p className="inline-flex max-w-full items-center gap-1.5 text-sm font-semibold text-foreground">
+                    <User className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+                    <span className="truncate">{result.uploader || result.uploader_id}</span>
                   </p>
                 )}
                 {caption && (
-                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-muted-foreground sm:line-clamp-2">
                     {caption}
                   </p>
                 )}
@@ -117,7 +117,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
                 <button
                   type="button"
                   onClick={() => void copyPostLink()}
-                  className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-border-strong bg-surface-strong/60 px-2 py-1 text-[11px] text-muted transition hover:text-foreground"
+                  className="inline-flex min-h-9 shrink-0 items-center gap-1 rounded-lg border border-border-strong bg-surface-strong/60 px-2.5 py-1.5 text-[11px] text-muted transition hover:text-foreground"
                   title="Copy post link"
                 >
                   {copied ? (
@@ -135,14 +135,14 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
           </header>
 
           {best && (
-            <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/15 via-accent-2/5 to-transparent p-4">
+            <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/15 via-accent-2/5 to-transparent p-3.5 sm:p-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
+                <div className="min-w-0">
                   <p className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-accent">
                     <Sparkles className="h-3 w-3" aria-hidden />
                     Recommended · Best quality
                   </p>
-                  <p className="mt-1 text-lg font-semibold text-foreground">
+                  <p className="mt-1 text-base font-semibold text-foreground sm:text-lg">
                     {best.quality} {best.ext.toUpperCase()}
                   </p>
                   <p className="text-xs text-muted-foreground">
@@ -158,7 +158,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
                 <Button
                   asChild
                   size="lg"
-                  className="w-full sm:w-auto"
+                  className="h-12 w-full sm:h-12 sm:w-auto"
                 >
                   <a
                     href={resolveDownloadHref(best.download_url)}

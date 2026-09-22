@@ -123,9 +123,9 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
         <label htmlFor={inputId} className="sr-only">
           Paste an X or Twitter post URL
         </label>
-        <div className="relative rounded-[28px]">
-          <div className="pointer-events-none absolute -inset-[2px] rounded-[30px] bg-[conic-gradient(from_180deg_at_50%_50%,#8b5cf6_0deg,#22d3ee_120deg,#a78bfa_240deg,#8b5cf6_360deg)] opacity-80 blur-[6px]" />
-          <div className="relative flex flex-col gap-2 rounded-[26px] border border-border-strong bg-[#0f0f19] p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.06)] sm:flex-row sm:items-stretch sm:pl-3">
+        <div className="relative rounded-[22px] sm:rounded-[28px]">
+          <div className="pointer-events-none absolute -inset-[1px] rounded-[24px] bg-[conic-gradient(from_180deg_at_50%_50%,#8b5cf6_0deg,#22d3ee_120deg,#a78bfa_240deg,#8b5cf6_360deg)] opacity-70 blur-[4px] sm:-inset-[2px] sm:rounded-[30px] sm:opacity-80 sm:blur-[6px]" />
+          <div className="relative flex flex-col gap-2 rounded-[20px] border border-border-strong bg-[#0f0f19] p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.06)] sm:flex-row sm:items-stretch sm:rounded-[26px] sm:pl-3">
           <div className="relative flex-1">
             <Input
               ref={inputRef}
@@ -134,22 +134,24 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
               type="url"
               inputMode="url"
               autoComplete="off"
+              autoCapitalize="off"
+              autoCorrect="off"
               spellCheck={false}
-              placeholder="Paste an X or Twitter post URL"
+              placeholder="Paste X / Twitter URL"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onPaste={onPaste}
               disabled={loading}
               aria-invalid={Boolean(error)}
               aria-describedby={error ? `${inputId}-error` : `${inputId}-hint`}
-              className="h-14 border-0 bg-transparent pl-4 pr-24 text-base text-foreground placeholder:text-muted-foreground/80 shadow-none focus-visible:ring-0 sm:pl-2"
+              className="h-12 border-0 bg-transparent pl-3 pr-20 text-base text-foreground placeholder:text-muted-foreground/80 shadow-none focus-visible:ring-0 sm:h-14 sm:pl-2 sm:pr-24"
             />
-            <div className="absolute inset-y-0 right-2 flex items-center gap-1">
+            <div className="absolute inset-y-0 right-1 flex items-center gap-0.5 sm:right-2 sm:gap-1">
               {url && !loading && (
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="rounded-lg p-2 text-muted-foreground transition hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="rounded-lg p-2.5 text-muted-foreground transition hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   aria-label="Clear URL"
                 >
                   <X className="h-4 w-4" />
@@ -159,7 +161,7 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
                 type="button"
                 onClick={() => void pasteFromClipboard()}
                 disabled={loading}
-                className="rounded-lg p-2 text-muted-foreground transition hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                className="rounded-lg p-2.5 text-muted-foreground transition hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
                 aria-label="Paste from clipboard"
                 title="Paste"
               >
@@ -175,7 +177,7 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
             type="submit"
             size="lg"
             disabled={loading || !url.trim()}
-            className="relative h-14 rounded-2xl sm:w-44"
+            className="relative h-12 w-full rounded-2xl sm:h-14 sm:w-44"
           >
             {loading ? (
               <>
@@ -193,9 +195,9 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
         </div>
         <p
           id={`${inputId}-hint`}
-          className="mt-3 text-center text-sm text-muted-foreground sm:text-left"
+          className="mt-2.5 px-1 text-center text-xs leading-relaxed text-muted-foreground sm:mt-3 sm:text-left sm:text-sm"
         >
-          Paste a link — we fetch automatically. Or just replace{" "}
+          Paste a link — we fetch automatically. Or replace{" "}
           <span className="text-foreground">x.com</span> in the URL.
         </p>
       </form>
@@ -208,7 +210,7 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.25 }}
-            className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-3xl border border-border bg-surface/70 p-6 shine"
+            className="mx-auto mt-6 max-w-2xl overflow-hidden rounded-2xl border border-border bg-surface/70 p-4 shine sm:mt-10 sm:rounded-3xl sm:p-6"
             role="status"
             aria-live="polite"
           >
@@ -236,7 +238,7 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
             exit={{ opacity: 0 }}
             id={`${inputId}-error`}
             role="alert"
-            className="mx-auto mt-8 max-w-2xl rounded-2xl border border-danger/30 bg-danger/10 px-5 py-4 text-sm text-danger-foreground"
+            className="mx-auto mt-6 max-w-2xl rounded-2xl border border-danger/30 bg-danger/10 px-4 py-3.5 text-sm text-danger-foreground sm:mt-8 sm:px-5 sm:py-4"
           >
             {error}
           </motion.div>
@@ -249,7 +251,7 @@ export function Downloader({ initialUrl = "", autoFetch = false }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-10 max-w-2xl"
+            className="mx-auto mt-6 max-w-2xl sm:mt-10"
           >
             <MediaResult
               result={result}

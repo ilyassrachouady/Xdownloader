@@ -12,16 +12,16 @@ const links = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-border/60 bg-background/60">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <footer className="mt-auto border-t border-border/60 bg-background/60 pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="mx-auto max-w-6xl px-3 py-10 sm:px-6 sm:py-12">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-md space-y-3">
             <Link
               href="/"
-              className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="inline-flex max-w-full items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label={`${BRAND} home`}
             >
-              <BrandLogo variant="full" className="h-6 sm:h-7" />
+              <BrandLogo variant="full" className="h-6 max-w-[min(220px,80vw)] sm:h-7" />
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Download videos, GIFs and live replays from public X / Twitter posts at{" "}
@@ -37,19 +37,19 @@ export function SiteFooter() {
               </a>
             </p>
           </div>
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+                className="min-h-10 inline-flex items-center text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
               >
                 {link.label}
               </Link>
             ))}
             <a
               href="#disclaimer"
-              className="text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+              className="min-h-10 inline-flex items-center text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
             >
               Disclaimer
             </a>
