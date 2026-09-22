@@ -187,8 +187,10 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
               )}
               {isLiveKind && (
                 <p className="mt-2 text-[11px] text-muted-foreground">
-                  Live replays remux to MP4 on-the-fly. Longer streams take a bit — keep
-                  the tab open.
+                  Live replays remux in the browser download — a 1-hour live can take
+                  several minutes. Keep this tab open until the file finishes saving.
+                  Don&apos;t open the file early or you&apos;ll only see the first ~8s
+                  segment.
                 </p>
               )}
             </div>

@@ -25,6 +25,9 @@ ALLOWED_MEDIA_HOST_SUFFIXES = (
     "periscope.tv",
 )
 
+# Idle gap allowed between stdout chunks while ffmpeg fetches the next HLS segment.
+_HLS_IDLE_TIMEOUT = 180.0
+
 
 def _host_allowed(hostname: str | None) -> bool:
     if not hostname:
@@ -38,6 +41,7 @@ async def _stream_direct(payload, settings: Settings) -> StreamingResponse:
     headers = {
         "Content-Disposition": f'attachment; filename="{filename}"',
         "Cache-Control": "no-store",
+        "X-Accel-Buffering": "no",
     }
 
     client = httpx.AsyncClient(
@@ -112,7 +116,22 @@ async def _stream_direct(payload, settings: Settings) -> StreamingResponse:
     return StreamingResponse(iterator(), media_type=content_type, headers=headers)
 
 
+async def _drain_stderr(process: asyncio.subprocess.Process) -> bytes:
+    if process.stderr is None:
+        return b""
+    try:
+        return await process.stderr.read()
+    except (BrokenPipeError, ConnectionResetError):
+        return b""
+
+
 async def _stream_hls(payload, settings: Settings) -> StreamingResponse:
+    """Remux a full HLS VOD playlist to fragmented MP4 and stream it.
+
+    Periscope replay segments are ~8s each. Truncated downloads that land on
+    exactly one segment almost always mean the HTTP proxy/client closed early —
+    keep this stream going until ffmpeg finishes the whole playlist.
+    """
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         raise HTTPException(
@@ -127,19 +146,31 @@ async def _stream_hls(payload, settings: Settings) -> StreamingResponse:
     headers = {
         "Content-Disposition": f'attachment; filename="{filename}"',
         "Cache-Control": "no-store",
+        # Discourage reverse proxies from buffering the whole remux before sending.
+        "X-Accel-Buffering": "no",
     }
 
-    # Fragmented MP4 so the browser can start saving before remux finishes.
     header_lines = (
         "Referer: https://www.periscope.tv/\r\n"
+        "Origin: https://www.periscope.tv\r\n"
         "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36\r\n"
     )
+    # Remux the full VOD playlist (copy). Fragmented MP4 so bytes start flowing
+    # immediately and long Fly/proxy connections stay alive.
     cmd = [
         ffmpeg,
         "-hide_banner",
         "-loglevel",
         "error",
+        "-reconnect",
+        "1",
+        "-reconnect_streamed",
+        "1",
+        "-reconnect_on_network_error",
+        "1",
+        "-reconnect_delay_max",
+        "10",
         "-headers",
         header_lines,
         "-i",
@@ -171,16 +202,23 @@ async def _stream_hls(payload, settings: Settings) -> StreamingResponse:
             },
         ) from exc
 
+    stderr_task = asyncio.create_task(_drain_stderr(process))
+    total_deadline = asyncio.get_event_loop().time() + float(settings.hls_download_timeout)
+
     async def iterator() -> AsyncIterator[bytes]:
         assert process.stdout is not None
         bytes_sent = 0
         timed_out = False
         try:
             while True:
+                remaining = total_deadline - asyncio.get_event_loop().time()
+                if remaining <= 0:
+                    timed_out = True
+                    break
                 try:
                     chunk = await asyncio.wait_for(
                         process.stdout.read(64 * 1024),
-                        timeout=settings.hls_download_timeout,
+                        timeout=min(_HLS_IDLE_TIMEOUT, remaining),
                     )
                 except asyncio.TimeoutError:
                     timed_out = True
@@ -189,10 +227,19 @@ async def _stream_hls(payload, settings: Settings) -> StreamingResponse:
                     break
                 bytes_sent += len(chunk)
                 if bytes_sent > settings.max_download_bytes:
+                    logger.warning(
+                        "HLS remux hit max_download_bytes (%s) for tweet %s",
+                        settings.max_download_bytes,
+                        payload.tweet_id,
+                    )
                     break
                 yield chunk
         except (GeneratorExit, ConnectionError, asyncio.CancelledError):
-            logger.debug("Client disconnected during HLS remux")
+            logger.info(
+                "Client disconnected during HLS remux for tweet %s after %s bytes",
+                payload.tweet_id,
+                bytes_sent,
+            )
         finally:
             if process.returncode is None:
                 process.kill()
@@ -200,13 +247,26 @@ async def _stream_hls(payload, settings: Settings) -> StreamingResponse:
                     await asyncio.wait_for(process.wait(), timeout=5)
                 except asyncio.TimeoutError:
                     pass
+            err = b""
+            try:
+                err = await asyncio.wait_for(stderr_task, timeout=2)
+            except (asyncio.TimeoutError, asyncio.CancelledError):
+                stderr_task.cancel()
             if timed_out:
-                logger.warning("HLS remux timed out for tweet %s", payload.tweet_id)
-            elif process.returncode not in (0, None, -9) and bytes_sent == 0:
-                err = b""
-                if process.stderr:
-                    err = await process.stderr.read()
-                logger.warning("ffmpeg failed (%s): %s", process.returncode, err[:500])
+                logger.warning(
+                    "HLS remux timed out for tweet %s after %s bytes",
+                    payload.tweet_id,
+                    bytes_sent,
+                )
+            elif process.returncode not in (0, None, -9) and bytes_sent < 64 * 1024:
+                logger.warning("ffmpeg failed (%s): %s", process.returncode, err[:800])
+            else:
+                logger.info(
+                    "HLS remux finished tweet=%s bytes=%s rc=%s",
+                    payload.tweet_id,
+                    bytes_sent,
+                    process.returncode,
+                )
 
     return StreamingResponse(iterator(), media_type="video/mp4", headers=headers)
 
@@ -266,7 +326,6 @@ async def stream_thumbnail(token: str, settings: Settings) -> StreamingResponse:
 
     content_type = response.headers.get("content-type") or f"image/{payload.ext}"
     if not content_type.startswith("image/"):
-        # Some CDNs return octet-stream; keep a sensible default
         content_type = f"image/{payload.ext if payload.ext in {'jpg', 'jpeg', 'png', 'webp'} else 'jpeg'}"
 
     headers = {
@@ -279,7 +338,7 @@ async def stream_thumbnail(token: str, settings: Settings) -> StreamingResponse:
 
     async def iterator() -> AsyncIterator[bytes]:
         bytes_sent = 0
-        max_bytes = 15 * 1024 * 1024  # thumbs should be small
+        max_bytes = 15 * 1024 * 1024
         try:
             async for chunk in response.aiter_bytes(chunk_size=64 * 1024):
                 bytes_sent += len(chunk)

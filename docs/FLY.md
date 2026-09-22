@@ -102,8 +102,11 @@ fly scale count 1
 fly ssh console          # shell into the machine
 ```
 
-## Notes
+## Long live replays
 
-- **Do not** put the extractor on Vercel — it needs ffmpeg and long-running streams.
-- Live replays remux HLS → MP4; keep `min_machines_running = 1` so cold starts don’t kill downloads.
-- If downloads time out, bump VM memory (`fly.toml` → `[[vm]] memory`) or check `fly logs`.
+Hour+ lives remux many ~8s HLS segments. The browser must download **directly from
+Fly** (`NEXT_PUBLIC_API_URL=https://….fly.dev`), not through a Next.js `/api` rewrite
+(Vercel/Next truncates long streams — you only get the first segment).
+
+Keep the tab open until the file finishes. Opening a half-finished download often
+looks like “only 8 seconds.”

@@ -39,6 +39,10 @@ API URL example: `https://savex-extractor.fly.dev`
 | `NEXT_PUBLIC_SITE_URL` | `https://savethex.com` |
 | `NEXT_PUBLIC_API_URL` | `https://YOUR-EXTRACTOR-URL` (no trailing slash) |
 
+`NEXT_PUBLIC_API_URL` must point at the Fly extractor. Downloads go there directly —
+do not rely on the Next `/api` rewrite for long live remuxes (those get truncated to
+~8s / one HLS segment).
+
 5. Deploy
 
 ## 3. Attach the domain

@@ -30,13 +30,15 @@ export type ApiError = {
   message: string;
 };
 
+/**
+ * Always talk to the extractor directly.
+ * Do NOT proxy long HLS remux downloads through Next.js `/api` rewrites —
+ * those truncate streams (users were getting ~1 segment / ~8s of a multi-hour live).
+ */
 export function getApiBaseUrl(): string {
-  // Prefer same-origin /api rewrite in the browser to avoid CORS host mismatches
-  // (localhost vs 127.0.0.1). Server-side still talks to the extractor directly.
-  if (typeof window !== "undefined") {
-    return "/api";
-  }
-  return process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://localhost:8000";
+  return (
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://127.0.0.1:8000"
+  );
 }
 
 export async function resolveMedia(url: string): Promise<ResolveResponse> {
