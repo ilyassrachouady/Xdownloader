@@ -149,7 +149,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
                     {[
                       best.width && best.height ? `${best.width} × ${best.height}` : null,
                       formatBytes(best.filesize),
-                      best.is_hls ? "HLS → MP4" : null,
+                      best.is_hls ? "HLS to MP4" : null,
                     ]
                       .filter(Boolean)
                       .join(" · ") || "MP4 video"}
@@ -240,7 +240,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
                                   ? `${format.width} × ${format.height}`
                                   : null,
                                 formatBytes(format.filesize),
-                                format.is_hls ? "HLS → MP4" : null,
+                                format.is_hls ? "HLS to MP4" : null,
                               ]
                                 .filter(Boolean)
                                 .join(" · ") || "MP4 video"}

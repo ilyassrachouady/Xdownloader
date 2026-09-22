@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { guides } from "@/lib/guides";
 import { BRAND, SITE_DOMAIN } from "@/lib/site";
 
@@ -24,9 +25,14 @@ export default function GuidesIndexPage() {
         </Link>{" "}
         / Guides
       </p>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight sm:text-4xl">
-        Guides
-      </h1>
+      <div className="mt-4 flex items-center gap-3">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent/10 text-accent">
+          <BookOpen className="h-5 w-5" aria-hidden />
+        </div>
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight sm:text-4xl">
+          Guides
+        </h1>
+      </div>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
         Short, practical articles to help you download public X media with {BRAND} —
         and help search engines understand what {SITE_DOMAIN} does.
@@ -37,13 +43,17 @@ export default function GuidesIndexPage() {
           <li key={guide.slug}>
             <Link
               href={`/guides/${guide.slug}`}
-              className="block rounded-2xl border border-border bg-surface p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group block rounded-2xl border border-border bg-surface p-5 transition hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <p className="text-xs text-muted-foreground">
                 Updated {guide.updatedAt}
               </p>
-              <h2 className="mt-1 text-lg font-semibold text-foreground">
-                {guide.title}
+              <h2 className="mt-1 flex items-center justify-between gap-3 text-lg font-semibold text-foreground">
+                <span>{guide.title}</span>
+                <ArrowRight
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-accent"
+                  aria-hidden
+                />
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {guide.excerpt}

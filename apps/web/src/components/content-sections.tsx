@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Share2, Sparkles, ShieldCheck } from "lucide-react";
+import {
+  BookOpen,
+  ChevronDown,
+  Share2,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import { BRAND, getSiteHost } from "@/lib/site";
 
 const siteHost = getSiteHost();
@@ -32,7 +38,7 @@ const supported = [
 const faqs = [
   {
     q: "What’s the fastest way to download?",
-    a: `Replace x.com (or twitter.com) with ${siteHost} in the post URL. Keep /username/status/… unchanged and open the new link.`,
+    a: `Replace x.com (or twitter.com) with ${siteHost} in the post URL. Keep /username/status/... unchanged and open the new link.`,
   },
   {
     q: `Can I install ${BRAND} on my phone?`,
@@ -160,20 +166,30 @@ export function ContentSections() {
       </section>
 
       <section aria-labelledby="guides-heading" id="guides">
-        <h2
-          id="guides-heading"
-          className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-        >
-          Guides
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Step-by-step articles for downloading videos, GIFs, live replays, and using the
-          replace-domain shortcut.{" "}
-          <Link href="/guides" className="font-medium text-accent hover:underline">
-            Browse all guides
-          </Link>
-          .
-        </p>
+        <div className="flex items-start gap-3">
+          <div className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent/10 text-accent">
+            <BookOpen className="h-4 w-4" aria-hidden />
+          </div>
+          <div>
+            <h2
+              id="guides-heading"
+              className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              Guides
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Step-by-step articles for downloading videos, GIFs, live replays, and using the
+              replace-domain shortcut.{" "}
+              <Link
+                href="/guides"
+                className="inline-flex items-center gap-1 font-medium text-accent hover:underline"
+              >
+                Browse all guides
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
       </section>
 
       <section aria-labelledby="faq-heading" id="faq">
@@ -189,9 +205,10 @@ export function ContentSections() {
               <summary className="cursor-pointer list-none text-sm font-semibold text-foreground marker:content-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded">
                 <span className="flex items-center justify-between gap-4">
                   {item.q}
-                  <span className="text-muted-foreground transition group-open:rotate-45" aria-hidden>
-                    +
-                  </span>
+                  <ChevronDown
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition group-open:rotate-180"
+                    aria-hidden
+                  />
                 </span>
               </summary>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Mail, Globe } from "lucide-react";
 import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -20,30 +21,28 @@ export default function ContactPage() {
       <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight">
         Contact
       </h1>
-      <div className="mt-8 space-y-4 text-sm leading-relaxed text-muted-foreground">
+      <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
         <p>
-          For support, privacy questions, or abuse reports, email{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="font-medium text-accent hover:underline"
-          >
-            {CONTACT_EMAIL}
-          </a>
-          .
+          For support, privacy questions, or abuse reports, email us:
         </p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 font-medium text-accent transition hover:border-accent/40 hover:underline"
+        >
+          <Mail className="h-4 w-4" aria-hidden />
+          {CONTACT_EMAIL}
+        </a>
         <p>
           When reporting an issue, include the public post URL (if appropriate) and a short
           description of what went wrong. Do not send credentials or private account links.
         </p>
-        <p>
-          Website:{" "}
-          <a
-            href={`https://${SITE_DOMAIN}`}
-            className="font-medium text-accent hover:underline"
-          >
-            {SITE_DOMAIN}
-          </a>
-        </p>
+        <a
+          href={`https://${SITE_DOMAIN}`}
+          className="inline-flex items-center gap-2 text-accent hover:underline"
+        >
+          <Globe className="h-4 w-4" aria-hidden />
+          {SITE_DOMAIN}
+        </a>
       </div>
     </div>
   );

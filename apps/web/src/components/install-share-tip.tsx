@@ -1,7 +1,22 @@
 "use client";
 
-import { Share2, Smartphone } from "lucide-react";
+import { ChevronRight, Share2, Smartphone } from "lucide-react";
 import { BRAND } from "@/lib/site";
+
+function StepTrail({ steps }: { steps: string[] }) {
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1">
+      {steps.map((step, i) => (
+        <span key={`${step}-${i}`} className="inline-flex items-center gap-1">
+          {i > 0 ? (
+            <ChevronRight className="h-3 w-3 text-muted-foreground/70" aria-hidden />
+          ) : null}
+          <span className="text-foreground">{step}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 export function InstallShareTip() {
   return (
@@ -22,11 +37,11 @@ export function InstallShareTip() {
             </h2>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            <span className="text-foreground">iPhone:</span> Safari → Share → Add
-            to Home Screen.
+            <span className="font-medium text-foreground">iPhone:</span>{" "}
+            <StepTrail steps={["Safari", "Share", "Add to Home Screen"]} />
             <br />
-            <span className="text-foreground">Android:</span> Chrome → menu →
-            Install app / Add to Home screen.
+            <span className="font-medium text-foreground">Android:</span>{" "}
+            <StepTrail steps={["Chrome", "Menu", "Install app"]} />
           </p>
         </div>
         <div className="glass rounded-2xl p-4">
@@ -37,8 +52,9 @@ export function InstallShareTip() {
             </h2>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            From the X app, tap Share → More → {BRAND}. We open the post ready to
-            download — no copy/paste.
+            From the X app, tap{" "}
+            <StepTrail steps={["Share", "More", BRAND]} />. We open the post ready
+            to download — no copy/paste.
           </p>
         </div>
       </div>

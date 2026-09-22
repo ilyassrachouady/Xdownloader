@@ -1,3 +1,4 @@
+import { Shield } from "lucide-react";
 import { ContentSections } from "@/components/content-sections";
 import { HistoryPanel } from "@/components/history-panel";
 import { HomeDownloader } from "@/components/home-downloader";
@@ -43,10 +44,7 @@ export default function HomePage() {
       <section className="relative px-4 pb-8 pt-12 sm:px-6 sm:pt-20">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface-strong/70 px-3 py-1 text-[11px] font-medium text-muted backdrop-blur">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="pulse-dot absolute inline-flex h-full w-full rounded-full bg-accent" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
+            <Shield className="h-3.5 w-3.5 text-accent" aria-hidden />
             No account · No ads · Public posts
           </span>
           <h1 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl">

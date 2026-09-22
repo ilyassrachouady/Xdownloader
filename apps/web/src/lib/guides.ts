@@ -39,7 +39,7 @@ function buildGuides(): GuideArticle[] {
         {
           heading: "Method 1: Paste the link",
           paragraphs: [
-            `Copy the post URL from X (Share → Copy link). On ${SITE_DOMAIN}, paste it into the box and tap Get media. Choose Save video for the highest quality, or open More qualities for other resolutions.`,
+            `Copy the post URL from X (Share, then Copy link). On ${SITE_DOMAIN}, paste it into the box and tap Get media. Choose Save video for the highest quality, or open More qualities for other resolutions.`,
           ],
         },
         {
@@ -76,7 +76,7 @@ function buildGuides(): GuideArticle[] {
         {
           heading: "Steps",
           paragraphs: [
-            `Open the public post with the GIF, copy its URL, and paste it on ${SITE_DOMAIN} (or swap x.com → ${host}). Tap Get media, then download the available MP4.`,
+            `Open the public post with the GIF, copy its URL, and paste it on ${SITE_DOMAIN} (or swap x.com for ${host}). Tap Get media, then download the available MP4.`,
           ],
         },
       ],
@@ -121,7 +121,7 @@ function buildGuides(): GuideArticle[] {
         "x.com replace domain",
         "twitter video download shortcut",
       ],
-      excerpt: `Change x.com → ${SITE_DOMAIN} and keep the rest of the path. Instant download page.`,
+      excerpt: `Change x.com to ${SITE_DOMAIN} and keep the rest of the path. Instant download page.`,
       sections: [
         {
           heading: "The pattern",
@@ -150,24 +150,24 @@ function buildGuides(): GuideArticle[] {
         "save x video android",
         "pwa twitter downloader",
       ],
-      excerpt: `Add ${BRAND} to your home screen, then Share → ${BRAND} from the X app.`,
+      excerpt: `Add ${BRAND} to your home screen, then share from the X app into ${BRAND}.`,
       sections: [
         {
           heading: "Install on iPhone",
           paragraphs: [
-            `Open ${SITE_DOMAIN} in Safari → Share → Add to Home Screen. Launch ${BRAND} from the icon like an app.`,
+            `Open ${SITE_DOMAIN} in Safari, open Share, then Add to Home Screen. Launch ${BRAND} from the icon like an app.`,
           ],
         },
         {
           heading: "Install on Android",
           paragraphs: [
-            `Open ${SITE_DOMAIN} in Chrome → menu → Install app (or Add to Home screen).`,
+            `Open ${SITE_DOMAIN} in Chrome, open the menu, then Install app (or Add to Home screen).`,
           ],
         },
         {
           heading: "Share from the X app",
           paragraphs: [
-            `In X, open a post → Share → More → ${BRAND}. The post opens ready to download.`,
+            `In X, open a post, tap Share, then More, then ${BRAND}. The post opens ready to download.`,
           ],
         },
       ],
