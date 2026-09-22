@@ -2,7 +2,13 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, Sora } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { BRAND, BRAND_TAGLINE } from "@/lib/site";
+import {
+  BRAND,
+  BRAND_TAGLINE,
+  CONTACT_EMAIL,
+  SITE_DOMAIN,
+  getSiteOrigin,
+} from "@/lib/site";
 import "./globals.css";
 
 const sans = IBM_Plex_Sans({
@@ -17,10 +23,9 @@ const display = Sora({
   weight: ["500", "600", "700"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = getSiteOrigin();
 const title = `${BRAND} — ${BRAND_TAGLINE}`;
-const description =
-  "Download videos, GIFs, and live replays from X in the highest available quality. Paste a link or just swap x.com with our domain.";
+const description = `Download videos, GIFs, and live replays from X in the highest available quality on ${SITE_DOMAIN}. Paste a link or swap x.com with ${SITE_DOMAIN}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -30,14 +35,20 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: BRAND,
+  authors: [{ name: BRAND, url: siteUrl }],
+  creator: BRAND,
+  publisher: BRAND,
   keywords: [
     "savethex",
+    "savethex.com",
     "savex",
     "x video downloader",
     "twitter video download",
     "download twitter gif",
     "x.com media download",
     "x live replay download",
+    "download twitter video",
+    "save x video",
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -46,9 +57,18 @@ export const metadata: Metadata = {
     title,
     description,
     siteName: BRAND,
+    locale: "en_US",
   },
   twitter: { card: "summary_large_image", title, description },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  category: "technology",
+  other: {
+    "contact:email": CONTACT_EMAIL,
+  },
   appleWebApp: {
     capable: true,
     title: BRAND,

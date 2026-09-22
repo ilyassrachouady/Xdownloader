@@ -3,22 +3,34 @@ import { HistoryPanel } from "@/components/history-panel";
 import { HomeDownloader } from "@/components/home-downloader";
 import { InstallShareTip } from "@/components/install-share-tip";
 import { MagicLinkTip } from "@/components/magic-link-tip";
-import { BRAND } from "@/lib/site";
+import { BRAND, CONTACT_EMAIL, SITE_DOMAIN, getSiteOrigin } from "@/lib/site";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: BRAND,
-  applicationCategory: "MultimediaApplication",
-  operatingSystem: "Any",
-  description:
-    "Download videos, GIFs and live replays from X and Twitter in high quality. Paste a public post URL or just swap the domain.",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
+const origin = getSiteOrigin();
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: BRAND,
+    url: origin,
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Any",
+    description: `Download videos, GIFs and live replays from X and Twitter in high quality on ${SITE_DOMAIN}. Paste a public post URL or just swap the domain.`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
   },
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: BRAND,
+    url: origin,
+    email: CONTACT_EMAIL,
+    sameAs: [`https://${SITE_DOMAIN}`],
+  },
+];
 
 export default function HomePage() {
   return (

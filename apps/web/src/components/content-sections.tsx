@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Share2, Sparkles, ShieldCheck } from "lucide-react";
 import { BRAND, getSiteHost } from "@/lib/site";
 
@@ -156,6 +157,23 @@ export function ContentSections() {
           <li>Recent downloads live only on your device (localStorage).</li>
           <li>Only public posts are supported.</li>
         </ul>
+      </section>
+
+      <section aria-labelledby="guides-heading" id="guides">
+        <h2
+          id="guides-heading"
+          className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+        >
+          Guides
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Step-by-step articles for downloading videos, GIFs, live replays, and using the
+          replace-domain shortcut.{" "}
+          <Link href="/guides" className="font-medium text-accent hover:underline">
+            Browse all guides
+          </Link>
+          .
+        </p>
       </section>
 
       <section aria-labelledby="faq-heading" id="faq">

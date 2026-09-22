@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { BRAND } from "@/lib/site";
+import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/guides", label: "Guides" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
   { href: "/contact", label: "Contact" },
@@ -21,9 +22,17 @@ export function SiteFooter() {
               <p className="text-sm font-semibold text-foreground">{BRAND}</p>
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Download videos, GIFs and live replays from public X / Twitter posts. Not
-              affiliated with X Corp. Users are responsible for respecting copyright and
-              platform rules.
+              Download videos, GIFs and live replays from public X / Twitter posts at{" "}
+              {SITE_DOMAIN}. Not affiliated with X Corp. Users are responsible for respecting
+              copyright and platform rules.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+              >
+                {CONTACT_EMAIL}
+              </a>
             </p>
           </div>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 text-sm">

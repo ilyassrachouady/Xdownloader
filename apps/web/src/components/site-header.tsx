@@ -27,12 +27,12 @@ export function SiteHeader() {
           >
             Fast way
           </a>
-          <a
-            href="#how-it-works"
-            className="hidden rounded-lg px-3 py-1.5 transition hover:bg-surface-elevated hover:text-foreground sm:inline"
+          <Link
+            href="/guides"
+            className="rounded-lg px-3 py-1.5 transition hover:bg-surface-elevated hover:text-foreground"
           >
-            How it works
-          </a>
+            Guides
+          </Link>
           <a
             href="#faq"
             className="hidden rounded-lg px-3 py-1.5 transition hover:bg-surface-elevated hover:text-foreground sm:inline"

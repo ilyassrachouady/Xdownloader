@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How X Video Downloader handles URLs and media requests.",
+  description: `How ${BRAND} (${SITE_DOMAIN}) handles URLs and media requests.`,
   alternates: { canonical: "/privacy" },
 };
 
@@ -19,9 +20,10 @@ export default function PrivacyPage() {
       <h1 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight">
         Privacy Policy
       </h1>
+      <p className="mt-2 text-xs text-muted-foreground">Last updated: September 22, 2026</p>
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
         <p>
-          X Video Downloader is designed to process public post URLs you submit so we can list
+          {BRAND} ({SITE_DOMAIN}) processes public post URLs you submit so we can list
           downloadable media. We do not require an account.
         </p>
         <p>
@@ -37,7 +39,11 @@ export default function PrivacyPage() {
           Only public posts are supported. Do not submit links to private or protected content.
         </p>
         <p>
-          Questions? Reach out via the{" "}
+          Questions? Email{" "}
+          <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent hover:underline">
+            {CONTACT_EMAIL}
+          </a>{" "}
+          or use the{" "}
           <Link href="/contact" className="text-accent hover:underline">
             contact page
           </Link>

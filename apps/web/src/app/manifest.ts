@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "SaveX — X Video Downloader",
     short_name: "SaveX",
     description:
-      "Download videos, GIFs, and live replays from X and Twitter in high quality.",
+      "Download videos, GIFs, and live replays from X and Twitter on savethex.com.",
     start_url: "/",
     scope: "/",
     display: "standalone",

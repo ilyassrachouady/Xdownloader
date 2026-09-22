@@ -14,7 +14,9 @@ const RESERVED = new Set([
   "privacy",
   "terms",
   "contact",
+  "guides",
   "api",
+  "share",
   "favicon.ico",
   "_next",
 ]);

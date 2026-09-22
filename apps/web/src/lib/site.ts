@@ -2,6 +2,7 @@ export const BRAND = "SaveX";
 export const BRAND_TAGLINE = "Download X videos, GIFs & live replays";
 /** Production domain — used in marketing copy when env is unset. */
 export const SITE_DOMAIN = "savethex.com";
+export const CONTACT_EMAIL = "contact@savethex.com";
 
 export function getSiteOrigin(): string {
   return (
