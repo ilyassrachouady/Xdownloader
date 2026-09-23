@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   authors: [{ name: BRAND, url: siteUrl }],
   creator: BRAND,
   publisher: BRAND,
+  alternates: {
+    types: {
+      "text/plain": "/llms.txt",
+    },
+  },
   keywords: [
     "SaveTheX",
     "Save The X",
