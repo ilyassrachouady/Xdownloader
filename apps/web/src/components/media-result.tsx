@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Check,
   ChevronDown,
   Clock,
   Download,
   ExternalLink,
+  Heart,
   ImageOff,
   Loader2,
   Radio,
@@ -22,8 +24,12 @@ import {
   remuxFileUrl,
   startRemuxJob,
 } from "@/lib/api";
+import { BRAND, HOSTING_SUPPORT_URL } from "@/lib/site";
 import { formatBytes, formatDuration } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
+const SUPPORT_PROMPT_KEY = "savethex:download-support-shown";
+let supportPromptShown = false;
 
 type Props = {
   result: ResolveResponse;
@@ -70,6 +76,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
   const [progress, setProgress] = useState<ProgressState | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showSupportPrompt, setShowSupportPrompt] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const thumbSrc = result.thumbnail ? absoluteDownloadUrl(result.thumbnail) : null;
@@ -94,6 +101,20 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
     }
   }
 
+  function showDownloadSupport() {
+    if (supportPromptShown) return;
+    supportPromptShown = true;
+
+    try {
+      if (sessionStorage.getItem(SUPPORT_PROMPT_KEY)) return;
+      sessionStorage.setItem(SUPPORT_PROMPT_KEY, "1");
+    } catch {
+      // Keep the in-memory flag when browser storage is unavailable.
+    }
+
+    setShowSupportPrompt(true);
+  }
+
   /**
    * Progressive MP4: plain <a download> is fine.
    * HLS / live: remux to a finished faststart MP4 on the server, then download
@@ -111,6 +132,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
       document.body.appendChild(a);
       a.click();
       a.remove();
+      showDownloadSupport();
       return;
     }
 
@@ -154,6 +176,7 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
       document.body.appendChild(a);
       a.click();
       a.remove();
+      showDownloadSupport();
       setProgress({ key, received: status.bytes || 0, phase: "done" });
       window.setTimeout(() => {
         setProgress((p) => (p?.key === key ? null : p));
@@ -417,6 +440,38 @@ export function MediaResult({ result, resolveDownloadHref }: Props) {
           </div>
         </div>
       </div>
+      {showSupportPrompt &&
+        createPortal(
+          <aside
+            aria-label="Support SaveTheX"
+            className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 rounded-2xl border border-accent/35 bg-surface-strong p-4 shadow-2xl sm:left-auto sm:right-5 sm:w-96"
+          >
+            <p role="status" className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Heart className="size-4 text-accent" aria-hidden />
+              Help keep {BRAND} online
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Downloads are free. If this helped, an optional contribution helps pay for hosting.
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <Button asChild size="sm" className="min-h-10">
+                <a href={HOSTING_SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+                  Contribute via Stripe
+                </a>
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="min-h-10"
+                onClick={() => setShowSupportPrompt(false)}
+              >
+                No thanks
+              </Button>
+            </div>
+          </aside>,
+          document.body,
+        )}
     </article>
   );
 }
