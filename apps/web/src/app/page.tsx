@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Shield } from "lucide-react";
+import { ArrowUpRight, Heart, Shield } from "lucide-react";
 import { ContentSections } from "@/components/content-sections";
 import { HistoryPanel } from "@/components/history-panel";
 import { HomeDownloader } from "@/components/home-downloader";
 import { InstallShareTip } from "@/components/install-share-tip";
 import { MagicLinkTip } from "@/components/magic-link-tip";
+import { Button } from "@/components/ui/button";
 import { BRAND, HOSTING_SUPPORT_URL, SITE_DOMAIN, getSiteHost } from "@/lib/site";
 import {
   ENTITY_DESCRIPTION,
@@ -91,22 +92,27 @@ export default function HomePage() {
         <section
           id="support"
           aria-labelledby="support-heading"
-          className="mx-auto mt-4 flex max-w-3xl scroll-mt-24 flex-col gap-3 rounded-xl border border-border-strong bg-surface-strong/70 p-4 sm:flex-row sm:items-center sm:justify-between"
+          className="mx-auto mt-4 grid max-w-3xl scroll-mt-24 gap-4 rounded-2xl border border-accent/20 bg-gradient-to-br from-accent/10 via-surface-strong to-surface-strong p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:px-5"
         >
-          <div>
-            <h2 id="support-heading" className="text-sm font-semibold text-foreground">
-              Help keep {BRAND} online
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              If you use {BRAND}, you can chip in to help cover hosting costs.
-            </p>
+          <div className="flex items-start gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+              <Heart className="size-4" aria-hidden />
+            </span>
+            <div>
+              <h2 id="support-heading" className="text-sm font-semibold text-foreground">
+                Help keep {BRAND} online
+              </h2>
+              <p className="mt-1 text-sm leading-snug text-muted-foreground">
+                Chip in for hosting and help keep downloads free.
+              </p>
+            </div>
           </div>
-          <a
-            href={HOSTING_SUPPORT_URL}
-            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-accent/40 px-4 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            Help cover hosting
-          </a>
+          <Button asChild variant="soft" className="w-full sm:w-auto">
+            <a href={HOSTING_SUPPORT_URL}>
+              Support {BRAND}
+              <ArrowUpRight className="size-4" aria-hidden />
+            </a>
+          </Button>
         </section>
 
         <MagicLinkTip />
