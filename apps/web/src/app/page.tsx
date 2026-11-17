@@ -6,7 +6,7 @@ import { HistoryPanel } from "@/components/history-panel";
 import { HomeDownloader } from "@/components/home-downloader";
 import { InstallShareTip } from "@/components/install-share-tip";
 import { MagicLinkTip } from "@/components/magic-link-tip";
-import { BRAND, SITE_DOMAIN, getSiteHost } from "@/lib/site";
+import { BRAND, HOSTING_SUPPORT_URL, SITE_DOMAIN, getSiteHost } from "@/lib/site";
 import {
   ENTITY_DESCRIPTION,
   ENTITY_ONE_LINER,
@@ -87,6 +87,27 @@ export default function HomePage() {
         <div className="mx-auto mt-7 max-w-3xl sm:mt-10">
           <HomeDownloader />
         </div>
+
+        <section
+          id="support"
+          aria-labelledby="support-heading"
+          className="mx-auto mt-4 flex max-w-3xl scroll-mt-24 flex-col gap-3 rounded-xl border border-border-strong bg-surface-strong/70 p-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <h2 id="support-heading" className="text-sm font-semibold text-foreground">
+              Help keep {BRAND} online
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              If you use {BRAND}, you can chip in to help cover hosting costs.
+            </p>
+          </div>
+          <a
+            href={HOSTING_SUPPORT_URL}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-accent/40 px-4 text-sm font-semibold text-accent transition-colors hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Help cover hosting
+          </a>
+        </section>
 
         <MagicLinkTip />
         <InstallShareTip />
