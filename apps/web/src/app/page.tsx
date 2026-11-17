@@ -92,27 +92,31 @@ export default function HomePage() {
         <section
           id="support"
           aria-labelledby="support-heading"
-          className="mx-auto mt-4 grid max-w-3xl scroll-mt-24 gap-4 rounded-2xl border border-accent/20 bg-gradient-to-br from-accent/10 via-surface-strong to-surface-strong p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:px-5"
+          className="mx-auto mt-4 grid max-w-3xl scroll-mt-24 gap-4 rounded-2xl border border-accent/35 bg-gradient-to-br from-accent/15 via-surface-strong to-surface-strong p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:px-5"
         >
           <div className="flex items-start gap-3">
             <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
               <Heart className="size-4" aria-hidden />
             </span>
             <div>
-              <h2 id="support-heading" className="text-sm font-semibold text-foreground">
+              <h2 id="support-heading" className="text-base font-semibold text-foreground">
                 Help keep {BRAND} online
               </h2>
               <p className="mt-1 text-sm leading-snug text-muted-foreground">
-                Chip in for hosting and help keep downloads free.
+                Downloads are free. If {BRAND} helped you, an optional contribution
+              helps cover hosting and keeps it online.
               </p>
             </div>
           </div>
-          <Button asChild variant="soft" className="w-full sm:w-auto">
-            <a href={HOSTING_SUPPORT_URL}>
-              Support {BRAND}
-              <ArrowUpRight className="size-4" aria-hidden />
-            </a>
-          </Button>
+          <div className="flex flex-col items-center gap-1.5">
+            <Button asChild className="w-full sm:w-auto">
+              <a href={HOSTING_SUPPORT_URL}>
+                Contribute to hosting
+                <ArrowUpRight className="size-4" aria-hidden />
+              </a>
+            </Button>
+            <p className="text-xs text-muted-foreground">Secure payment via Stripe</p>
+          </div>
         </section>
 
         <MagicLinkTip />
