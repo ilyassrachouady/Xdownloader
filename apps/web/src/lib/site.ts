@@ -3,6 +3,7 @@ export const BRAND_TAGLINE =
   "Free X/Twitter video, GIF and ended Live replay downloader";
 /** Production domain — used in marketing copy when env is unset. */
 export const SITE_DOMAIN = "savethex.com";
+export const HOSTING_SUPPORT_URL = "https://buy.stripe.com/3cI3cv2EQ7Dzeu65N6f3a03";
 export const CONTACT_EMAIL = "contact@savethex.com";
 /** IndexNow key host file: /{INDEXNOW_KEY}.txt (Bing / Yandex discovery). */
 export const INDEXNOW_KEY = "a7c4e91f2b8d4f6a9c1e3d5b7f0a2c4e";
