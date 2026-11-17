@@ -43,6 +43,15 @@ export function SiteFooter() {
                 {CONTACT_EMAIL}
               </a>
             </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Enjoy using {BRAND}? You can chip in to keep it online.{" "}
+              <a
+                href="https://buy.stripe.com/3cI3cv2EQ7Dzeu65N6f3a03"
+                className="rounded text-accent underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                Help cover hosting
+              </a>
+            </p>
           </div>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
             {links.map((link) => (
