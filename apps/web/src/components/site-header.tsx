@@ -49,6 +49,12 @@ export function SiteHeader() {
           >
             FAQ
           </Link>
+          <Link
+            href="/#support"
+            className="inline-flex min-h-10 items-center rounded-lg px-2.5 font-semibold text-accent transition hover:bg-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:px-3"
+          >
+            Support
+          </Link>
         </nav>
       </div>
     </header>
