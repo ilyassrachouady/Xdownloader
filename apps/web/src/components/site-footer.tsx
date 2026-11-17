@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand-logo";
-import { BRAND, CONTACT_EMAIL, SITE_DOMAIN } from "@/lib/site";
+import { BRAND, CONTACT_EMAIL, HOSTING_SUPPORT_URL, SITE_DOMAIN } from "@/lib/site";
 import { ENTITY_ONE_LINER } from "@/lib/seo";
 
 const links = [
@@ -46,7 +46,7 @@ export function SiteFooter() {
             <p className="text-sm leading-relaxed text-muted-foreground">
               Enjoy using {BRAND}? You can chip in to keep it online.{" "}
               <a
-                href="https://buy.stripe.com/3cI3cv2EQ7Dzeu65N6f3a03"
+                href={HOSTING_SUPPORT_URL}
                 className="rounded text-accent underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 Help cover hosting
